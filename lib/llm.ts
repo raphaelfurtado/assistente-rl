@@ -46,7 +46,8 @@ Definições de tipo:
 - tecnico: configuração, integração ou uso.
 - metodo: como os números e a classificação do RealLeader funcionam.
 - parceria: uso dos dados por outra empresa, API, revenda.
-- comercial: contratar, orçamento, fonte sob encomenda.
+- comercial: só o que exige negociação com o time: contratar o RLTV, orçamento ou plano personalizado, fonte sob encomenda.
+- produto: como funciona, como contratar ou comprar o RLPRESS (é self-service: conta + pacote de créditos), preços, recursos.
 - reembolso: pedido de dinheiro de volta.`;
   const r = await askJson(system, `Mensagem: """${message}"""`);
   return {

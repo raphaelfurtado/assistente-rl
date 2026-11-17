@@ -1,10 +1,8 @@
-import { KB_BY_ID } from "./kb";
 import { getClient, llmAnswer, llmClassify } from "./llm";
 import { heuristicClassify, matchRule } from "./rules";
+import { getConfig } from "./store";
 import { detectLang, retrieve } from "./text";
 import type { ChatResult, Classification, Lang, Step, Turn } from "./types";
-
-const HUMAN_TYPES = new Set(["reembolso", "bug", "parceria", "comercial"]);
 
 const HANDOFF: Record<Lang, string> = {
   pt: "Esse caso precisa de uma pessoa da equipe. Registrei o resumo abaixo para o atendimento humano, que funciona de segunda a sexta, das 9h às 18h (Brasília), com resposta em até 1 dia útil.",
@@ -16,11 +14,6 @@ const QUALIFY: Record<Lang, string> = {
   pt: "\n\nPara o time comercial já chegar preparado, me conte: 1) nome da empresa, 2) como pretende usar os dados (portal, TV, app), 3) volume esperado, 4) produto de interesse (RLPRESS, RLTV ou API).",
   en: "\n\nSo our sales team comes prepared, please tell me: 1) company name, 2) how you plan to use the data (website, TV, app), 3) expected volume, 4) product of interest (RLPRESS, RLTV or API).",
   es: "\n\nPara que el equipo comercial llegue preparado, cuéntame: 1) nombre de la empresa, 2) cómo planeas usar los datos (portal, TV, app), 3) volumen esperado, 4) producto de interés (RLPRESS, RLTV o API).",
-};
-
-const threshold = () => {
-  const t = Number(process.env.CONFIDENCE_THRESHOLD);
-  return Number.isFinite(t) && t > 0 && t <= 1 ? t : 0.6;
 };
 
 function handoffSummary(message: string, lang: Lang, info: Pick<Classification, "tipo" | "produto">) {
@@ -38,27 +31,33 @@ const asLang = (x: string, fallback: Lang): Lang => (x === "pt" || x === "en" ||
 export async function runPipeline(message: string, history: Turn[]): Promise<ChatResult> {
   const t0 = Date.now();
   const steps: Step[] = [];
+  const config = await getConfig();
+  const kb = config.kb.filter((d) => d.ativo);
+  const kbIds = new Set(kb.map((d) => d.id));
+  const humanTypes = new Set(config.humanTypes);
   const lang = detectLang(message);
   const llmOn = getClient() !== null;
   const done = (r: Omit<ChatResult, "steps" | "llm" | "ms">): ChatResult => ({ ...r, steps, llm: llmOn, ms: Date.now() - t0 });
 
-  // ---------- Camada 1: regras ----------
-  const rule = lang === "pt" ? matchRule(message) : null;
-  if (rule) {
-    steps.push({ layer: 1, result: rule.human ? "regra de encaminhamento" : "resposta aprovada", kv: [["regra", rule.id], ["fonte", rule.kb], ["idioma", lang]] });
+  // ---------- Camada 1: respostas prontas ----------
+  const hit = lang === "pt" ? matchRule(message, config.rules) : null;
+  if (hit) {
+    const { rule, gatilho } = hit;
+    const human = rule.acao === "humano";
+    steps.push({ layer: 1, result: human ? "regra de encaminhamento" : "resposta aprovada", kv: [["regra", rule.id], ["gatilho", gatilho], ["fonte", rule.fonte || "—"], ["idioma", lang]] });
     steps.push({ layer: 2, skip: true, result: "pulada", kv: [] });
     steps.push({ layer: 3, skip: true, result: "pulada", kv: [] });
-    if (rule.human) {
-      steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", "política ambígua para créditos"]] });
-      return done({ reply: HANDOFF[lang], layer: 4, lang, meta: rule.reason, handoff: handoffSummary(message, lang, { tipo: "reembolso", produto: "rlpress/premium" }) });
+    if (human) {
+      steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", rule.nome]] });
+      return done({ reply: HANDOFF[lang], layer: 4, lang, meta: rule.motivo || rule.nome, handoff: handoffSummary(message, lang, { tipo: rule.id, produto: "—" }) });
     }
     steps.push({ layer: 4, skip: true, result: "não precisou", kv: [] });
-    return done({ reply: rule.text ?? "", layer: 1, lang, meta: `fonte: ${rule.kb}` });
+    return done({ reply: rule.resposta, layer: 1, lang, meta: rule.fonte ? `fonte: ${rule.fonte}` : `regra: ${rule.id}` });
   }
   steps.push({
     layer: 1,
     result: "nenhuma regra casou",
-    kv: [["idioma", lang], ["observação", lang === "pt" ? "frase fora dos padrões fixos" : "regras só cobrem português"]],
+    kv: [["idioma", lang], ["observação", lang === "pt" ? "frase fora dos gatilhos cadastrados" : "regras só cobrem português"]],
   });
 
   // ---------- Camada 2: classificação ----------
@@ -80,14 +79,14 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
   });
   const replyLang = asLang(info.idioma, lang);
 
-  if (HUMAN_TYPES.has(info.tipo)) {
+  if (humanTypes.has(info.tipo)) {
     steps.push({ layer: 3, skip: true, result: "pulada", kv: [] });
-    steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", info.tipo]] });
+    steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", `tipo "${info.tipo}" configurado para humano`]] });
     const reason =
       info.tipo === "parceria" ? "Parceria: o assistente qualifica e o comercial negocia." :
       info.tipo === "bug" ? "Possível erro em dado ou matéria: precisa de verificação humana." :
       info.tipo === "comercial" ? "Pedido comercial: tratado pelo time RealLeader." :
-      "Tema sensível: tratado por humano.";
+      `Tipo "${info.tipo}" é tratado por humano.`;
     return done({
       reply: HANDOFF[replyLang] + (info.tipo === "parceria" ? QUALIFY[replyLang] : ""),
       layer: 4,
@@ -98,7 +97,7 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
   }
 
   // ---------- Camada 3: LLM com fontes ----------
-  const docs = retrieve(`${message} ${info.resumo}`, info.produto);
+  const docs = retrieve(`${message} ${info.resumo}`, kb, info.produto);
   const buscadas = docs.map((d) => d.id).join(", ") || "nenhuma";
   if (!llmOn) {
     steps.push({ layer: 3, skip: true, result: "LLM indisponível", kv: [["fontes achadas", buscadas]] });
@@ -108,8 +107,8 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
 
   try {
     const a = await llmAnswer(message, docs, replyLang, history.slice(-4));
-    const cited = a.fontes.filter((id) => KB_BY_ID[id]);
-    const min = threshold();
+    const cited = a.fontes.filter((id) => kbIds.has(id));
+    const min = config.threshold;
     const escalate = a.escalar || !a.resposta || a.confianca < min || cited.length === 0;
     steps.push({
       layer: 3,

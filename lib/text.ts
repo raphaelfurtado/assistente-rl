@@ -1,5 +1,5 @@
 import type { Lang } from "./types";
-import { KB, type KbDoc } from "./kb";
+import type { KbDoc } from "./kb";
 
 export const norm = (s: string) =>
   s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -23,9 +23,9 @@ export function detectLang(text: string): Lang {
 }
 
 // Busca por palavras-chave. Com ~14 trechos, um banco vetorial seria overengineering.
-export function retrieve(text: string, produto?: string, limit = 4): KbDoc[] {
+export function retrieve(text: string, kb: KbDoc[], produto?: string, limit = 4): KbDoc[] {
   const toks = norm(text).split(/[^a-z0-9]+/).filter((t) => t.length > 3);
-  return KB.map((d) => {
+  return kb.map((d) => {
     const keys = norm(d.keys);
     const body = norm(d.text);
     let score = 0;

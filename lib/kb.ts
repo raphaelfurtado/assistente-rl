@@ -25,6 +25,12 @@ export const KB: KbDoc[] = [
     text: "RLPRESS: 100 matérias por R$ 490,00 (R$ 4,90 cada); 250 por R$ 1.078,00 (R$ 4,31 cada); 500 por R$ 1.960,00 (R$ 3,92 cada, o mais vendido); quantidade personalizada a R$ 4,90 cada. Pagamento com cartão via Stripe, créditos liberados após a confirmação. Sem mensalidade fixa.",
   },
   {
+    id: "kb-rlpress-contratar",
+    produto: "rlpress",
+    keys: "contratar contratacao assinar comprar adquirir comecar usar cadastro cadastrar conta criar rlpress pacote creditos como",
+    text: "Como contratar o RLPRESS (self-service, sem falar com vendedor): 1) criar uma conta RealLeader em realleader.com/cadastrar, ou entrar com a conta que já tem; 2) escolher um pacote de créditos (100, 250 ou 500 matérias, ou quantidade personalizada); 3) pagar com cartão. Os créditos são liberados automaticamente após a confirmação do pagamento e valem 45 dias. Não há mensalidade fixa. Equipes podem pedir uma organização na conta, com um login por pessoa.",
+  },
+  {
     id: "kb-equipe",
     produto: "rlpress",
     keys: "equipe time organizacao usuarios logins redacao varios",

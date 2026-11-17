@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Chat, { LAYER } from "./Chat";
-import { KB } from "@/lib/kb";
 import type { ChatResult, Layer } from "@/lib/types";
 
 type LogRow = { n: number; message: string; layer: Layer; ms: number };
@@ -16,6 +15,11 @@ const PREMISSA: [Layer, string, number][] = [
 export default function Demo() {
   const [last, setLast] = useState<{ message: string; result: ChatResult } | null>(null);
   const [log, setLog] = useState<LogRow[]>([]);
+  const [kb, setKb] = useState<{ id: string; text: string }[] | null>(null);
+
+  useEffect(() => {
+    fetch("/api/kb").then((r) => r.json()).then((d: { kb?: { id: string; text: string }[] }) => setKb(d.kb ?? [])).catch(() => setKb([]));
+  }, []);
 
   function onResult(message: string, result: ChatResult) {
     setLast({ message, result });
@@ -110,9 +114,13 @@ export default function Demo() {
           <details>
             <summary>Base de conhecimento usada (fontes autorizadas)</summary>
             <div className="kb">
-              {KB.map((d) => (
-                <div key={d.id}><code>{d.id}</code> — {d.text}</div>
-              ))}
+              {kb === null ? (
+                <div>Carregando…</div>
+              ) : (
+                kb.map((d) => (
+                  <div key={d.id}><code>{d.id}</code> — {d.text}</div>
+                ))
+              )}
             </div>
           </details>
         </section>

@@ -2,6 +2,60 @@
 
 import { useEffect, useState } from "react";
 
+const GUIDE = "https://github.com/raphaelfurtado/assistente-rl/blob/main/docs/INSTALACAO-WIDGET.md";
+
+const PLATFORMS: { id: string; name: string; steps: string[]; note?: string }[] = [
+  {
+    id: "html",
+    name: "Site em HTML",
+    steps: ["Abra o arquivo HTML de cada página (ou o modelo comum).", "Cole o código logo antes de </body>.", "Publique os arquivos."],
+  },
+  {
+    id: "wordpress",
+    name: "WordPress",
+    steps: [
+      "Em Plugins → Adicionar novo, instale e ative o WPCode (antigo Insert Headers and Footers).",
+      "Vá em Code Snippets → Header & Footer.",
+      "Cole o código no campo Footer e clique em Save Changes.",
+      "Se o site usa plugin de cache, limpe o cache.",
+    ],
+    note: "Sem plugin: Aparência → Editor de arquivos de tema → footer.php, antes de </body>, de preferência num tema filho.",
+  },
+  {
+    id: "wix",
+    name: "Wix",
+    steps: [
+      "Configurações → Avançado → Código personalizado → + Adicionar código personalizado.",
+      "Cole o código. Em páginas, escolha Todas as páginas e Carregar código uma vez.",
+      "Em Posicionar código em, escolha Corpo - fim.",
+      "Clique em Aplicar e publique o site.",
+    ],
+    note: "Requer plano pago com domínio conectado.",
+  },
+  {
+    id: "shopify",
+    name: "Shopify",
+    steps: ["Loja virtual → Temas → ⋯ → Editar código.", "Abra layout → theme.liquid.", "Cole o código antes de </body> e clique em Salvar."],
+  },
+  {
+    id: "gtm",
+    name: "Google Tag Manager",
+    steps: [
+      "Tags → Nova → HTML personalizado, e cole o código.",
+      "Em Acionamento, escolha All Pages.",
+      "Clique em Visualizar para testar e depois em Enviar → Publicar.",
+    ],
+  },
+  {
+    id: "next",
+    name: "Next.js / React",
+    steps: [
+      "Next.js: no app/layout.tsx, use <Script src=\".../widget.js\" strategy=\"afterInteractive\" /> de next/script dentro do <body>.",
+      "React com Vite ou Create React App: cole o código no index.html, antes de </body>.",
+    ],
+  },
+];
+
 function CopyBlock({ id, label, code }: { id: string; label: string; code: string }) {
   const [state, setState] = useState<"idle" | "ok" | "fail">("idle");
   async function copy() {
@@ -86,6 +140,36 @@ export default function Installer() {
       </section>
 
       <section className="card">
+        <h2>Onde colar, em cada plataforma</h2>
+        <p className="hint">O código vai sempre no fim da página, antes de <code>&lt;/body&gt;</code>, em todas as páginas onde o chat deve aparecer.</p>
+        <div className="platforms">
+          {PLATFORMS.map((p) => (
+            <details key={p.id} className="platform">
+              <summary>{p.name}</summary>
+              <ol>
+                {p.steps.map((s, i) => <li key={i}>{s}</li>)}
+              </ol>
+              {p.note && <p className="hint">{p.note}</p>}
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="card">
+        <h2>Como saber se funcionou</h2>
+        <ol className="checklist">
+          <li>Abra o site numa janela anônima, para evitar cache.</li>
+          <li>Em até 3 segundos aparecem o botão no canto e o convite.</li>
+          <li>Clique no botão: o chat abre com a mensagem de boas-vindas.</li>
+          <li>Clique em “Os créditos vencem?”: a resposta chega na hora, com a etiqueta Regras.</li>
+          <li>No celular, o chat ocupa a tela inteira e fecha pelo ×.</li>
+        </ol>
+        <p className="hint">
+          Não apareceu? Veja os <a href={`${GUIDE}#8-problemas-comuns`} target="_blank" rel="noreferrer">problemas comuns</a> no guia completo de instalação.
+        </p>
+      </section>
+
+      <section className="card">
         <h2>2. Link direto</h2>
         <p className="hint">Abre o chat numa página própria. Serve para colocar no WhatsApp, no e-mail de suporte, na bio do Instagram ou num QR code.</p>
         <CopyBlock id="code-link" label="Link do chat" code={directLink} />
@@ -99,6 +183,8 @@ export default function Installer() {
 
       <p className="foot">
         Em produção, defina a variável <code>WIDGET_ALLOWED_ORIGINS</code> na Vercel com os domínios do cliente, para que só esses sites possam embutir o chat.
+        Todas as opções, exemplos de uso e soluções para problemas estão no{" "}
+        <a href={GUIDE} target="_blank" rel="noreferrer">guia completo de instalação</a>.
       </p>
     </div>
   );
