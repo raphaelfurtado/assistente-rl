@@ -3,22 +3,128 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Site de exemplo com o widget</title>
+  <title>Arquibancada — site de exemplo</title>
   <style>
-    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: #f4f6f4; color: #15201a; }
-    main { max-width: 760px; margin: 0 auto; padding: 48px 16px; }
-    h1 { margin-top: 0; }
-    code { background: #e6ece7; padding: 2px 6px; border-radius: 4px; }
-    .note { color: #5a6a61; }
+    :root { --bg: #f5f6f3; --ink: #141a16; --muted: #5d6a62; --line: #dde3dd; --brand: #0f3d2e; --hot: #d8432f; --card: #fff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.5; }
+    a { color: inherit; }
+    .demo-bar { background: #fff6d6; color: #5a4a00; font-size: 13px; text-align: center; padding: 8px 16px; border-bottom: 1px solid #f0e2a8; }
+    .demo-bar code { background: rgba(0,0,0,.06); padding: 1px 6px; border-radius: 4px; }
+    header { background: var(--brand); color: #fff; }
+    .bar { max-width: 1100px; margin: 0 auto; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .logo { font-weight: 800; font-size: 22px; letter-spacing: -.02em; }
+    .logo span { color: #7ee2a8; }
+    nav { display: flex; gap: 18px; font-size: 14px; flex-wrap: wrap; }
+    nav a { text-decoration: none; opacity: .9; }
+    nav a:hover { opacity: 1; text-decoration: underline; }
+    .ticker { background: #0a2a20; color: #cfe9dc; font-size: 13px; }
+    .ticker .bar { padding: 8px 16px; gap: 22px; justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
+    .ticker b { color: #fff; }
+    main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 80px; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 24px; }
+    @media (max-width: 820px) { main { grid-template-columns: minmax(0, 1fr); } }
+    .hero { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .hero-img { height: 220px; background: linear-gradient(135deg, #1d6b4c 0%, #0f3d2e 60%), repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,.05) 40px 80px); background-blend-mode: overlay; position: relative; }
+    .hero-img::after { content: ""; position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; border: 2px solid rgba(255,255,255,.35); border-radius: 50%; }
+    .hero-body { padding: 18px 20px 22px; }
+    .kicker { color: var(--hot); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+    h1 { margin: 6px 0 8px; font-size: clamp(24px, 3.4vw, 34px); line-height: 1.15; }
+    .meta { color: var(--muted); font-size: 13px; }
+    .list { display: grid; gap: 12px; margin-top: 20px; }
+    .item { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+    .item h2 { font-size: 17px; margin: 4px 0; }
+    aside { display: grid; gap: 16px; align-content: start; }
+    .box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+    .box h3 { margin: 0 0 10px; font-size: 15px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+    td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); text-align: left; }
+    th { color: var(--muted); font-weight: 600; font-size: 12px; }
+    td.n { text-align: right; }
+    .help { display: inline-block; margin-top: 4px; padding: 9px 14px; border-radius: 8px; border: 0; background: var(--brand); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+    footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    footer .bar { justify-content: center; text-align: center; }
   </style>
 </head>
 <body>
+  <div class="demo-bar">
+    Site fictício de demonstração. O chat no canto da tela vem de uma única linha: <code>&lt;script src="/widget.js" defer&gt;&lt;/script&gt;</code>
+  </div>
+
+  <header>
+    <div class="bar">
+      <div class="logo">Arquibancada<span>.</span></div>
+      <nav aria-label="Seções">
+        <a href="#">Brasileirão</a><a href="#">Copas</a><a href="#">Mercado</a><a href="#">Tabelas</a><a href="#">Colunas</a>
+      </nav>
+    </div>
+  </header>
+  <div class="ticker" aria-label="Placar da rodada">
+    <div class="bar">
+      <span><b>Ribeirinho 2 × 1 Maré</b> · encerrado</span>
+      <span><b>Serrano 0 × 0 Ventania</b> · encerrado</span>
+      <span><b>Estrela do Norte 3 × 2 Portuário</b> · encerrado</span>
+      <span><b>Cerrado × Litoral</b> · hoje, 21h30</span>
+    </div>
+  </div>
+
   <main>
-    <h1>Site de exemplo</h1>
-    <p>Esta página simula o site de um cliente. O botão de chat no canto inferior direito vem de uma única linha colada no HTML:</p>
-    <p><code>&lt;script src="/widget.js" defer&gt;&lt;/script&gt;</code></p>
-    <p class="note">Em produção, o endereço do script é o do projeto publicado na Vercel. Protótipo acadêmico, sem vínculo oficial com o RealLeader.</p>
+    <div>
+      <article class="hero">
+        <div class="hero-img" role="img" aria-label="Ilustração de um campo de futebol"></div>
+        <div class="hero-body">
+          <div class="kicker">Rodada 32</div>
+          <h1>Ribeirinho vira no fim e encosta no G-4 a seis rodadas do fim</h1>
+          <p class="meta">Redação Arquibancada · há 2 horas</p>
+          <p>Com dois gols no segundo tempo, o time da casa venceu o Maré e chegou a 54 pontos. Pelo modelo de probabilidades, a chance de vaga direta subiu de 31% para 47%.</p>
+        </div>
+      </article>
+
+      <div class="list">
+        <article class="item">
+          <div class="kicker">Análise</div>
+          <h2>Por que a tabela ponderada coloca o Serrano à frente do Ventania</h2>
+          <p class="meta">Coluna · há 5 horas</p>
+        </article>
+        <article class="item">
+          <div class="kicker">Mercado</div>
+          <h2>Estrela do Norte acerta a renovação do meia até 2028</h2>
+          <p class="meta">Redação · há 7 horas</p>
+        </article>
+        <article class="item">
+          <div class="kicker">Copas</div>
+          <h2>Sorteio define confrontos das quartas de final; veja o chaveamento</h2>
+          <p class="meta">Redação · ontem</p>
+        </article>
+      </div>
+    </div>
+
+    <aside>
+      <section class="box" aria-labelledby="tab-h">
+        <h3 id="tab-h">Classificação</h3>
+        <table>
+          <thead><tr><th>#</th><th>Time</th><th class="n">P</th><th class="n">J</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Estrela do Norte</td><td class="n">63</td><td class="n">32</td></tr>
+            <tr><td>2</td><td>Serrano</td><td class="n">58</td><td class="n">32</td></tr>
+            <tr><td>3</td><td>Ventania</td><td class="n">56</td><td class="n">32</td></tr>
+            <tr><td>4</td><td>Cerrado</td><td class="n">55</td><td class="n">31</td></tr>
+            <tr><td>5</td><td>Ribeirinho</td><td class="n">54</td><td class="n">32</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section class="box">
+        <h3>Assinantes e parceiros</h3>
+        <p class="meta">Dúvidas sobre créditos, integração com WordPress ou parcerias de dados? Fale com o nosso assistente.</p>
+        <button type="button" class="help" onclick="window.RLWidget && RLWidget.open()">Falar com o suporte</button>
+      </section>
+    </aside>
   </main>
-  <script src="/widget.js" defer></script>
+
+  <footer>
+    <div class="bar">Arquibancada é um site fictício criado só para demonstrar o widget. Protótipo acadêmico, sem vínculo oficial com o RealLeader.</div>
+  </footer>
+
+  <!-- A única linha necessária para instalar o assistente: -->
+  <script src="/widget.js" data-greeting="Dúvidas sobre créditos ou parcerias? Fale com a gente." defer></script>
 </body>
 </html>

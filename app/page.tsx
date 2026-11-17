@@ -10,7 +10,8 @@ export default function Home() {
           <p className="lede">
             Cada mensagem passa pelas camadas da arquitetura proposta, e o painel mostra qual camada respondeu e por quê. Protótipo de
             estudo, sem vínculo oficial com o RealLeader; a base de conhecimento foi montada a partir das páginas públicas do site
-            consultadas em 17/11/2026. Veja também o <a href="/exemplo-site.html">widget embutido num site de exemplo</a>.
+            consultadas em 17/11/2026. Veja também o <a href="/exemplo-site.html">widget embutido num site de exemplo</a> e{" "}
+            <a href="/instalar">como instalar o chat em qualquer site</a>.
           </p>
           <div className="pipeline" aria-label="Camadas da arquitetura">
             <span className="tag t1">1 · Regras</span><span className="arrow">→</span>

@@ -43,7 +43,16 @@ export default function Chat({
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [llm, setLlm] = useState<boolean | null>(null);
+  const [inFrame, setInFrame] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setInFrame(embedded && window.parent !== window);
+  }, [embedded]);
+
+  function closeWidget() {
+    window.parent.postMessage({ type: "rl-widget-close" }, "*");
+  }
 
   useEffect(() => {
     fetch("/api/chat").then((r) => r.json()).then((d: { llm?: boolean }) => setLlm(Boolean(d.llm))).catch(() => setLlm(false));
@@ -87,7 +96,12 @@ export default function Chat({
           <div className="w-title">Suporte RealLeader</div>
           <div className="w-sub">Assistente virtual · protótipo</div>
         </div>
-        <span className="llm-pill">{llm === null ? "LLM: verificando…" : llm ? "LLM: ativo" : "LLM: só regras"}</span>
+        <div className="w-actions">
+          <span className="llm-pill">{llm === null ? "LLM: verificando…" : llm ? "LLM: ativo" : "LLM: só regras"}</span>
+          {inFrame && (
+            <button type="button" className="w-close" aria-label="Fechar suporte" onClick={closeWidget}>×</button>
+          )}
+        </div>
       </div>
 
       <div className="msgs" ref={listRef} aria-live="polite">
