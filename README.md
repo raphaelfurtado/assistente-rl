@@ -136,9 +136,23 @@ Clique em **Deploy**. Em cerca de 1 minuto o projeto fica **Ready** com um ender
 
 > Variável cadastrada **depois** do deploy só vale no próximo. Use **Deployments → ⋯ → Redeploy**.
 
-### 3.4 Ligar o banco do admin (Upstash Redis)
+### 3.4 Ligar o banco (Supabase, recomendado)
 
-Sem banco, o `/admin` abre mas não consegue salvar, porque o disco da Vercel é somente leitura.
+O Supabase (Postgres) guarda as edições do `/admin`, os **casos encaminhados para a equipe** (aba "Casos para a equipe") e os embeddings da **busca semântica** (pgvector). Sem banco, o assistente funciona com o conteúdo padrão do código, mas o admin não salva e os encaminhamentos não são registrados.
+
+1. Crie um projeto em [supabase.com](https://supabase.com).
+2. Crie as tabelas, de um dos jeitos:
+   - **SQL Editor → New query**, cole [supabase/001_inicial.sql](supabase/001_inicial.sql) e clique em **Run**; ou
+   - no terminal, com `SUPABASE_DB_URL` no `.env.local` (connection string com a senha do banco): `npm run db:migrar`.
+3. Em **Project Settings → API Keys**, copie a **Project URL** e a **Secret key** (`sb_secret_...`).
+4. Na Vercel, cadastre `SUPABASE_URL` e `SUPABASE_SECRET_KEY` e faça um **Redeploy**.
+5. Entre em `/admin` → **Encaminhamento → Restaurar o padrão**: grava o conteúdo padrão no banco e calcula os embeddings da base.
+
+Segurança: as tabelas têm RLS ligado e nenhuma política, então a chave pública (publishable) não lê nem grava nada. A chave secreta fica só no servidor. Os encaminhamentos guardam só um trecho da mensagem (até 300 caracteres) e a classificação, não a conversa.
+
+### 3.5 Alternativa: Upstash Redis
+
+Se preferir não usar o Supabase, o admin também salva no Upstash Redis (sem busca semântica nem registro de casos).
 
 1. No projeto, abra a aba **Storage → Create Database**.
 2. Escolha **Upstash → Redis**, plano gratuito, região mais próxima dos clientes (ex.: São Paulo, se houver).
@@ -146,7 +160,7 @@ Sem banco, o `/admin` abre mas não consegue salvar, porque o disco da Vercel é
 4. A Vercel cria sozinha as variáveis `KV_REST_API_URL` e `KV_REST_API_TOKEN`, que o projeto já reconhece.
 5. Faça um **Redeploy**.
 
-### 3.5 Conferir a publicação
+### 3.6 Conferir a publicação
 
 ```bash
 curl https://SEU-PROJETO.vercel.app/api/chat
@@ -155,7 +169,7 @@ curl https://SEU-PROJETO.vercel.app/api/chat
 
 Depois repita os quatro testes da seção 2.5 no endereço publicado e entre em `/admin`: o topo deve mostrar **"Salvando no Upstash Redis"**.
 
-### 3.6 Atualizações
+### 3.7 Atualizações
 
 Cada `git push` na branch `main` gera um deploy automático. Pushes em outras branches geram endereços de pré-visualização (*Preview*), bons para testar antes.
 
@@ -265,7 +279,9 @@ Trechos ativos da base de conhecimento (público, mesmo conteúdo que o chat pod
 | `OPENAI_API_KEY` | — | Chave da OpenAI. Sem ela, modo só regras |
 | `OPENAI_MODEL` | `gpt-4o-mini` | Modelo das camadas 2 e 3 |
 | `ADMIN_PASSWORD` | — | Senha do `/admin`. Sem ela, o admin fica desligado |
-| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | — | Banco das edições do admin (criadas pela Vercel ao conectar o Upstash). Também aceita `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` |
+| `SUPABASE_URL` / `SUPABASE_SECRET_KEY` | — | Banco principal: admin, casos encaminhados e busca semântica |
+| `SUPABASE_DB_URL` | — | Só para `npm run db:migrar` (connection string com a senha). Não precisa ir para a Vercel |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | — | Alternativa: Upstash Redis (criadas pela Vercel ao conectar o Upstash). Também aceita `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` |
 | `WIDGET_ALLOWED_ORIGINS` | qualquer site | Sites que podem exibir o chat embutido |
 
 ## 10. Limites conhecidos

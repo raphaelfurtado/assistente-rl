@@ -1,13 +1,27 @@
+import type { KbEntry } from "./config";
+import { registrarEncaminhamento } from "./handoffs";
 import { getClient, llmAnswer, llmClassify } from "./llm";
 import { heuristicClassify, matchRule } from "./rules";
-import { getConfig } from "./store";
+import { buscarTrechosSemantica, getConfig } from "./store";
 import { detectLang, retrieve } from "./text";
 import type { ChatResult, Classification, Lang, Step, Turn } from "./types";
 
 const HANDOFF: Record<Lang, string> = {
-  pt: "Esse caso precisa de uma pessoa da equipe. Abra um chamado em rldocs.realleader.com/chamados (ou, no RLPRESS, Central de ajuda → Abrir chamado): a equipe responde em até 48 horas, inclusive fins de semana. Registrei o resumo abaixo para agilizar.",
-  en: "This case needs a person from our team. Please open a ticket at rldocs.realleader.com/chamados (or, in RLPRESS, Help center → Open ticket): the team replies within 48 hours, weekends included. I've logged the summary below to speed things up.",
-  es: "Este caso necesita una persona del equipo. Abre un ticket en rldocs.realleader.com/chamados (o, en RLPRESS, Central de ayuda → Abrir ticket): el equipo responde en hasta 48 horas, incluidos fines de semana. Registré el resumen abajo para agilizar.",
+  pt: "Esse caso precisa de uma pessoa da equipe. Abra um chamado em rldocs.realleader.com/chamados (ou, no RLPRESS, Central de ajuda → Abrir chamado): a equipe responde em até 48 horas, inclusive fins de semana.",
+  en: "This case needs a person from our team. Please open a ticket at rldocs.realleader.com/chamados (or, in RLPRESS, Help center → Open ticket): the team replies within 48 hours, weekends included.",
+  es: "Este caso necesita una persona del equipo. Abre un ticket en rldocs.realleader.com/chamados (o, en RLPRESS, Central de ayuda → Abrir ticket): el equipo responde en hasta 48 horas, incluidos fines de semana.",
+};
+
+// Só diz que registrou quando o encaminhamento foi gravado de fato no banco.
+const REGISTRADO: Record<Lang, string> = {
+  pt: "\n\nJá registrei o seu caso para a equipe (resumo abaixo).",
+  en: "\n\nI've logged your case for the team (summary below).",
+  es: "\n\nYa registré tu caso para el equipo (resumen abajo).",
+};
+const COPIE: Record<Lang, string> = {
+  pt: "\n\nAo abrir o chamado, copie o resumo abaixo para agilizar.",
+  en: "\n\nWhen you open the ticket, copy the summary below to speed things up.",
+  es: "\n\nAl abrir el ticket, copia el resumen de abajo para agilizar.",
 };
 
 // Fechamento quando o cliente já recebeu a solução da base (erro nos dados): sugere o chamado sem tratar como caso perdido.
@@ -42,6 +56,17 @@ function handoffSummary(message: string, lang: Lang, info: Pick<Classification, 
 
 const asLang = (x: string, fallback: Lang): Lang => (x === "pt" || x === "en" || x === "es" ? x : fallback);
 
+// Busca os trechos da base: semântica (pgvector no Supabase) quando disponível; senão, palavras-chave.
+async function buscarDocs(texto: string, kb: KbEntry[], produto: string): Promise<{ docs: KbEntry[]; modo: string }> {
+  const sem = await buscarTrechosSemantica(texto, 4);
+  if (sem) {
+    const porId = new Map(kb.map((d) => [d.id, d]));
+    const docs = sem.map((s) => porId.get(s.id)).filter((d): d is KbEntry => Boolean(d));
+    if (docs.length) return { docs, modo: `semântica (${sem.map((s) => `${s.id} ${s.similaridade.toFixed(2)}`).join(", ")})` };
+  }
+  return { docs: retrieve(texto, kb, produto) as KbEntry[], modo: "palavras-chave" };
+}
+
 export async function runPipeline(message: string, history: Turn[]): Promise<ChatResult> {
   const t0 = Date.now();
   const steps: Step[] = [];
@@ -53,6 +78,13 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
   const llmOn = getClient() !== null;
   const done = (r: Omit<ChatResult, "steps" | "llm" | "ms">): ChatResult => ({ ...r, steps, llm: llmOn, ms: Date.now() - t0 });
 
+  // Encaminha para humano: grava no banco (quando houver) e avisa o cliente de acordo.
+  const encaminhar = async (reply: string, meta: string, info: Pick<Classification, "tipo" | "produto">, l: Lang) => {
+    const ok = await registrarEncaminhamento({ categoria: info.tipo, produto: info.produto, idioma: l, motivo: meta, mensagem: message });
+    steps.push({ layer: 4, result: ok ? "registrado no banco" : "não registrado (sem banco)", kv: [] });
+    return done({ reply: reply + (ok ? REGISTRADO[l] : COPIE[l]), layer: 4, lang: l, meta, handoff: handoffSummary(message, l, info) });
+  };
+
   // ---------- Camada 1: respostas prontas ----------
   const hit = lang === "pt" ? matchRule(message, config.rules) : null;
   if (hit) {
@@ -63,7 +95,7 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
     steps.push({ layer: 3, skip: true, result: "pulada", kv: [] });
     if (human) {
       steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", rule.nome]] });
-      return done({ reply: HANDOFF[lang], layer: 4, lang, meta: rule.motivo || rule.nome, handoff: handoffSummary(message, lang, { tipo: rule.id, produto: "—" }) });
+      return encaminhar(HANDOFF[lang], rule.motivo || rule.nome, { tipo: rule.id, produto: "—" }, lang);
     }
     steps.push({ layer: 4, skip: true, result: "não precisou", kv: [] });
     return done({ reply: rule.resposta, layer: 1, lang, meta: rule.fonte ? `fonte: ${rule.fonte}` : `regra: ${rule.id}` });
@@ -105,12 +137,12 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
     let agora = "";
     if ((info.tipo === "bug" || info.tipo === "parceria") && llmOn) {
       try {
-        const docsBug = retrieve(`${message} ${info.resumo}`, kb, info.produto);
-        const a = await llmAnswer(message, docsBug, replyLang, history.slice(-4));
+        const { docs, modo } = await buscarDocs(`${message} ${info.resumo}`, kb, info.produto);
+        const a = await llmAnswer(message, docs, replyLang, history.slice(-4));
         const cited = a.fontes.filter((id) => kbIds.has(id));
         if (!a.escalar && a.resposta && cited.length && a.confianca >= config.threshold) {
           agora = a.resposta;
-          steps.push({ layer: 3, result: "orientação imediata", kv: [["fontes citadas", cited.join(", ")], ["confiança", a.confianca.toFixed(2)]] });
+          steps.push({ layer: 3, result: "orientação imediata", kv: [["busca", modo], ["fontes citadas", cited.join(", ")], ["confiança", a.confianca.toFixed(2)]] });
         }
       } catch {
         /* sem orientação imediata: segue só o encaminhamento */
@@ -119,7 +151,6 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
     // Erro nos dados com solução na base: o cliente resolve sozinho; o chamado fica como sugestão.
     if (agora && info.tipo === "bug") {
       steps.push({ layer: 4, skip: true, result: "sugerido, não necessário", kv: [["motivo", "solução encontrada na base"]] });
-      // Se a própria resposta já orientou o chamado, não repete.
       const jaCitaChamado = /chamado|ticket/i.test(agora);
       return done({ reply: jaCitaChamado ? agora : `${agora}\n\n${TAIL_BUG[replyLang]}`, layer: 3, lang: replyLang, meta: "Solução da documentação, com chamado sugerido se persistir." });
     }
@@ -129,25 +160,19 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
       agora && info.tipo === "parceria"
         ? `${agora}\n\n${TAIL_PARCERIA[replyLang]}${QUALIFY[replyLang]}`
         : HANDOFF[replyLang] + (info.tipo === "parceria" ? QUALIFY[replyLang] : "");
-    return done({
-      reply: corpo,
-      layer: 4,
-      lang: replyLang,
-      meta: reason,
-      handoff: handoffSummary(message, replyLang, info),
-    });
+    return encaminhar(corpo, reason, info, replyLang);
   }
 
   // ---------- Camada 3: LLM com fontes ----------
-  const docs = retrieve(`${message} ${info.resumo}`, kb, info.produto);
-  const buscadas = docs.map((d) => d.id).join(", ") || "nenhuma";
   if (!llmOn) {
-    steps.push({ layer: 3, skip: true, result: "LLM indisponível", kv: [["fontes achadas", buscadas]] });
+    const docs = retrieve(`${message} ${info.resumo}`, kb, info.produto);
+    steps.push({ layer: 3, skip: true, result: "LLM indisponível", kv: [["fontes achadas", docs.map((d) => d.id).join(", ") || "nenhuma"]] });
     steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", "sem chave da OpenAI configurada"]] });
-    return done({ reply: HANDOFF[replyLang], layer: 4, lang: replyLang, meta: "Sem LLM configurado: dúvida aberta vai para humano.", handoff: handoffSummary(message, replyLang, info) });
+    return encaminhar(HANDOFF[replyLang], "Sem LLM configurado: dúvida aberta vai para humano.", info, replyLang);
   }
 
   try {
+    const { docs, modo } = await buscarDocs(`${message} ${info.resumo}`, kb, info.produto);
     const a = await llmAnswer(message, docs, replyLang, history.slice(-4));
     const cited = a.fontes.filter((id) => kbIds.has(id));
     const min = config.threshold;
@@ -155,17 +180,17 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
     steps.push({
       layer: 3,
       result: escalate ? "baixa confiança" : "respondeu",
-      kv: [["fontes buscadas", buscadas], ["fontes citadas", cited.join(", ") || "nenhuma"], ["confiança", a.confianca.toFixed(2)], ["limite", min.toFixed(2)]],
+      kv: [["busca", modo], ["fontes citadas", cited.join(", ") || "nenhuma"], ["confiança", a.confianca.toFixed(2)], ["limite", min.toFixed(2)]],
     });
     if (escalate) {
       steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", `fontes não cobrem ou confiança < ${min.toFixed(2)}`]] });
-      return done({ reply: HANDOFF[replyLang], layer: 4, lang: replyLang, meta: "As fontes oficiais não cobrem a pergunta com segurança.", handoff: handoffSummary(message, replyLang, info) });
+      return encaminhar(HANDOFF[replyLang], "As fontes oficiais não cobrem a pergunta com segurança.", info, replyLang);
     }
     steps.push({ layer: 4, skip: true, result: "não precisou", kv: [] });
     return done({ reply: a.resposta, layer: 3, lang: replyLang, meta: `fontes: ${cited.join(", ")} · confiança ${a.confianca.toFixed(2)}` });
   } catch (e) {
     steps.push({ layer: 3, result: "falhou", kv: [["erro", e instanceof Error ? e.message.slice(0, 80) : "desconhecido"]] });
     steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", "falha do LLM"]] });
-    return done({ reply: HANDOFF[replyLang], layer: 4, lang: replyLang, meta: "O LLM não respondeu; o caso segue para humano.", handoff: handoffSummary(message, replyLang, info) });
+    return encaminhar(HANDOFF[replyLang], "O LLM não respondeu; o caso segue para humano.", info, replyLang);
   }
 }

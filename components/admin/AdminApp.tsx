@@ -8,9 +8,10 @@ import { matchRule, triggerMatches } from "@/lib/rules";
 import { norm } from "@/lib/text";
 import type { StorageKind } from "@/lib/store";
 
-type Tab = "regras" | "base" | "encaminhamento" | "testar";
+type Tab = "regras" | "base" | "encaminhamento" | "casos" | "testar";
 
 const STORAGE_LABEL: Record<StorageKind, string> = {
+  supabase: "Salvando no Supabase (Postgres)",
   upstash: "Salvando no Upstash Redis",
   arquivo: "Salvando em arquivo local (.data/config.json)",
   nenhum: "Sem banco: as alterações não podem ser salvas",
@@ -130,6 +131,7 @@ export default function AdminApp({ initial, storage }: { initial: AdminConfig; s
             ["regras", `Respostas prontas (${cfg.rules.length})`],
             ["base", `Base de conhecimento (${cfg.kb.length})`],
             ["encaminhamento", "Encaminhamento"],
+            ["casos", "Casos para a equipe"],
             ["testar", "Testar o chat"],
           ] as [Tab, string][]).map(([id, label]) => (
             <button key={id} role="tab" type="button" aria-selected={tab === id} className={`tab${tab === id ? " on" : ""}`} onClick={() => setTab(id)}>
@@ -143,6 +145,7 @@ export default function AdminApp({ initial, storage }: { initial: AdminConfig; s
         {tab === "encaminhamento" && (
           <RoutingTab cfg={cfg} setCfg={setCfg} confirmReset={confirmReset} setConfirmReset={setConfirmReset} onReset={reset} busy={busy} />
         )}
+        {tab === "casos" && <CasosTab />}
         {tab === "testar" && (
           <section>
             {dirty && <div className="banner warn">Você tem alterações não salvas. O chat de teste usa a versão salva: clique em Salvar antes de testar.</div>}
@@ -430,6 +433,11 @@ function KbTab({ cfg, setCfg }: { cfg: AdminConfig; setCfg: React.Dispatch<React
             <input id="kb-keys" type="text" value={doc.keys} maxLength={600} onChange={(e) => update({ keys: e.target.value })} />
             <small>Palavras que os clientes usam ao perguntar sobre este assunto, separadas por espaço (sem acento). Ajudam o trecho a ser encontrado.</small>
           </label>
+          <label className="field">
+            <span>Link da fonte (opcional)</span>
+            <input id="kb-url" type="url" placeholder="https://rldocs.realleader.com/..." value={doc.url ?? ""} maxLength={300} onChange={(e) => update({ url: e.target.value || undefined })} />
+            <small>Página oficial de onde o texto foi tirado. Ajuda a equipe a revisar a base.</small>
+          </label>
           <label className="check">
             <input type="checkbox" checked={doc.ativo} onChange={(e) => update({ ativo: e.target.checked })} /> Ativo
           </label>
@@ -450,6 +458,88 @@ function KbTab({ cfg, setCfg }: { cfg: AdminConfig; setCfg: React.Dispatch<React
         <section className="editor card"><p className="empty">Selecione um trecho ou clique em “+ Novo trecho”.</p></section>
       )}
     </div>
+  );
+}
+
+// ---------------- Casos para a equipe (encaminhamentos gravados no Supabase) ----------------
+
+type Caso = { id: string; criado_em: string; categoria: string; produto: string; idioma: string; motivo: string; mensagem: string; status: "aberto" | "resolvido"; resolvido_em: string | null };
+
+function CasosTab() {
+  const [itens, setItens] = useState<Caso[] | null>(null);
+  const [disponivel, setDisponivel] = useState(true);
+  const [erro, setErro] = useState("");
+  const [filtro, setFiltro] = useState<"aberto" | "resolvido" | "todos">("aberto");
+
+  async function carregar() {
+    setErro("");
+    try {
+      const r = await fetch("/api/admin/encaminhamentos", { cache: "no-store" });
+      if (r.status === 401) { window.location.href = "/admin/login"; return; }
+      const d = (await r.json()) as { disponivel?: boolean; itens?: Caso[]; error?: string };
+      if (!r.ok) throw new Error(d.error || `Erro ${r.status}`);
+      setDisponivel(d.disponivel !== false);
+      setItens(d.itens ?? []);
+    } catch (e) {
+      setErro(e instanceof Error ? e.message : "Não foi possível carregar.");
+      setItens([]);
+    }
+  }
+  useEffect(() => { carregar(); }, []);
+
+  async function mudar(id: string, status: "aberto" | "resolvido") {
+    setItens((xs) => xs?.map((x) => (x.id === id ? { ...x, status } : x)) ?? null);
+    const r = await fetch("/api/admin/encaminhamentos", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, status }) });
+    if (!r.ok) { setErro("Não foi possível atualizar o caso."); carregar(); }
+  }
+
+  if (!disponivel) {
+    return <section className="card"><h2>Casos para a equipe</h2><p className="hint">Disponível quando o Supabase estiver conectado. Sem banco, os encaminhamentos aparecem só na tela do cliente.</p></section>;
+  }
+  const lista = (itens ?? []).filter((x) => filtro === "todos" || x.status === filtro);
+  const abertos = (itens ?? []).filter((x) => x.status === "aberto").length;
+  return (
+    <section className="card">
+      <div className="list-head">
+        <h2>Casos para a equipe ({abertos} abertos)</h2>
+        <div className="row-actions">
+          {(["aberto", "resolvido", "todos"] as const).map((f) => (
+            <button key={f} type="button" className={`btn small${filtro === f ? " primary" : ""}`} onClick={() => setFiltro(f)}>
+              {f === "aberto" ? "Abertos" : f === "resolvido" ? "Resolvidos" : "Todos"}
+            </button>
+          ))}
+          <button type="button" className="btn small ghost" onClick={carregar}>Atualizar</button>
+        </div>
+      </div>
+      <p className="hint">Cada vez que o chat encaminha para humano, o caso aparece aqui com a categoria e um trecho da mensagem (até 300 caracteres; a conversa não é gravada).</p>
+      {erro && <div className="banner error">{erro}</div>}
+      {itens === null ? (
+        <p className="empty">Carregando…</p>
+      ) : lista.length === 0 ? (
+        <p className="empty">Nenhum caso {filtro === "aberto" ? "aberto" : filtro === "resolvido" ? "resolvido" : ""}.</p>
+      ) : (
+        <div className="logwrap">
+          <table>
+            <thead><tr><th>Quando</th><th>Categoria</th><th>Mensagem do cliente</th><th>Motivo</th><th></th></tr></thead>
+            <tbody>
+              {lista.map((c) => (
+                <tr key={c.id}>
+                  <td className="n">{new Date(c.criado_em).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</td>
+                  <td><span className="pill">{c.categoria}</span>{c.produto && c.produto !== "—" ? <> <span className="pill">{c.produto}</span></> : null} <span className="pill">{c.idioma}</span></td>
+                  <td className="m">{c.mensagem}</td>
+                  <td className="m muted">{c.motivo}</td>
+                  <td>
+                    {c.status === "aberto"
+                      ? <button type="button" className="btn small" onClick={() => mudar(c.id, "resolvido")}>Marcar resolvido</button>
+                      : <button type="button" className="btn small ghost" onClick={() => mudar(c.id, "aberto")}>Reabrir</button>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   );
 }
 

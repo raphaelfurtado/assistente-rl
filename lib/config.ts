@@ -136,11 +136,13 @@ export function validateConfig(input: unknown): { ok: true; config: AdminConfig 
     const text = str(d.text, 2500);
     if (!text) return { ok: false, error: `O trecho "${id}" está sem texto.` };
     kbIds.add(id);
+    const url = str(d.url, 300);
     kb.push({
       id,
       produto: PRODUTOS.includes(str(d.produto, 20)) ? str(d.produto, 20) : "geral",
       keys: str(d.keys, 600),
       text,
+      ...(url && /^https?:\/\//.test(url) ? { url } : {}),
       ativo: d.ativo !== false,
     });
   }

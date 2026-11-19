@@ -3,7 +3,7 @@
 // comerciais do realleader.com (consultadas em 17/11/2026). Validada no experimento M1D2.
 // A equipe pode editar tudo isto pelo /admin; o que for salvo lá substitui este padrão.
 
-export type KbDoc = { id: string; produto: string; keys: string; text: string };
+export type KbDoc = { id: string; produto: string; keys: string; text: string; url?: string };
 
 export const KB: KbDoc[] = [
   {
