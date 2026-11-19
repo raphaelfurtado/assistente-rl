@@ -5,9 +5,9 @@ import { detectLang, retrieve } from "./text";
 import type { ChatResult, Classification, Lang, Step, Turn } from "./types";
 
 const HANDOFF: Record<Lang, string> = {
-  pt: "Esse caso precisa de uma pessoa da equipe. Registrei o resumo abaixo para o atendimento humano, que funciona de segunda a sexta, das 9h às 18h (Brasília), com resposta em até 1 dia útil.",
-  en: "This case needs a person from our team. I've logged the summary below for human support, available Monday to Friday, 9am–6pm Brasília time, with a reply within 1 business day.",
-  es: "Este caso necesita una persona del equipo. Registré el resumen abajo para la atención humana, de lunes a viernes, de 9h a 18h (hora de Brasilia), con respuesta en hasta 1 día hábil.",
+  pt: "Esse caso precisa de uma pessoa da equipe. Abra um chamado em rldocs.realleader.com/chamados (ou, no RLPRESS, Central de ajuda → Abrir chamado): a equipe responde em até 48 horas, inclusive fins de semana. Registrei o resumo abaixo para agilizar.",
+  en: "This case needs a person from our team. Please open a ticket at rldocs.realleader.com/chamados (or, in RLPRESS, Help center → Open ticket): the team replies within 48 hours, weekends included. I've logged the summary below to speed things up.",
+  es: "Este caso necesita una persona del equipo. Abre un ticket en rldocs.realleader.com/chamados (o, en RLPRESS, Central de ayuda → Abrir ticket): el equipo responde en hasta 48 horas, incluidos fines de semana. Registré el resumen abajo para agilizar.",
 };
 
 const QUALIFY: Record<Lang, string> = {
@@ -80,15 +80,32 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
   const replyLang = asLang(info.idioma, lang);
 
   if (humanTypes.has(info.tipo)) {
-    steps.push({ layer: 3, skip: true, result: "pulada", kv: [] });
-    steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", `tipo "${info.tipo}" configurado para humano`]] });
     const reason =
       info.tipo === "parceria" ? "Parceria: o assistente qualifica e o comercial negocia." :
       info.tipo === "bug" ? "Possível erro em dado ou matéria: precisa de verificação humana." :
       info.tipo === "comercial" ? "Pedido comercial: tratado pelo time RealLeader." :
       `Tipo "${info.tipo}" é tratado por humano.`;
+
+    // Erro nos dados e parcerias: antes de encaminhar, diz o que o cliente pode fazer agora (validado no
+    // experimento M1D2: só o canal de atendimento foi considerado incompleto; para API, a RLAPI é self-service).
+    let agora = "";
+    if ((info.tipo === "bug" || info.tipo === "parceria") && llmOn) {
+      try {
+        const docsBug = retrieve(`${message} ${info.resumo}`, kb, info.produto);
+        const a = await llmAnswer(message, docsBug, replyLang, history.slice(-4));
+        const cited = a.fontes.filter((id) => kbIds.has(id));
+        if (!a.escalar && a.resposta && cited.length && a.confianca >= config.threshold) {
+          agora = a.resposta;
+          steps.push({ layer: 3, result: "orientação imediata", kv: [["fontes citadas", cited.join(", ")], ["confiança", a.confianca.toFixed(2)]] });
+        }
+      } catch {
+        /* sem orientação imediata: segue só o encaminhamento */
+      }
+    }
+    if (!agora) steps.push({ layer: 3, skip: true, result: "pulada", kv: [] });
+    steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", `tipo "${info.tipo}" configurado para humano`]] });
     return done({
-      reply: HANDOFF[replyLang] + (info.tipo === "parceria" ? QUALIFY[replyLang] : ""),
+      reply: (agora ? `${agora}\n\n` : "") + HANDOFF[replyLang] + (info.tipo === "parceria" ? QUALIFY[replyLang] : ""),
       layer: 4,
       lang: replyLang,
       meta: reason,

@@ -71,9 +71,9 @@ const DEFAULT_RULES: AdminRule[] = [
     resposta: "Você pode cancelar a assinatura quando quiser, sem multa, em Minha conta → Minhas assinaturas → Gerenciar assinatura. O acesso continua até o fim do período já pago, e não há reembolso proporcional do período em curso.",
   },
   {
-    id: "contato", nome: "Horário e contato", acao: "responder", fonte: "kb-atendimento", ativo: true, motivo: "",
-    gatilhos: ["horario atendimento", "atendimento humano", "falar alguem", "falar atendente", "falar pessoa", "falar humano", "contato"],
-    resposta: "O atendimento humano funciona de segunda a sexta, das 9h às 18h (horário de Brasília), pelo formulário de contato do site, com resposta em até 1 dia útil.",
+    id: "contato", nome: "Horário e contato", acao: "responder", fonte: "kb-chamados", ativo: true, motivo: "",
+    gatilhos: ["horario atendimento", "atendimento humano", "falar atendente", "falar humano", "contato", "abrir chamado"],
+    resposta: "Você pode falar com a equipe de dois jeitos:\n• Chamado: em rldocs.realleader.com/chamados (ou, no RLPRESS, Central de ajuda → Abrir chamado). Resposta em até 48 horas, inclusive fins de semana.\n• Formulário de contato do site: de segunda a sexta, das 9h às 18h (Brasília), com resposta em até 1 dia útil.",
   },
   {
     id: "login", nome: "Mesmo login para todos os produtos", acao: "responder", fonte: "kb-login", ativo: true, motivo: "",

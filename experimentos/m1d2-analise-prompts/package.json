@@ -1,0 +1,14 @@
+{
+  "name": "m1d2-analise-prompts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Micro-capstone M1D2: análise do comportamento de um LLM no atendimento do RealLeader com 6 estruturas de prompt.",
+  "scripts": {
+    "experimento": "node run.mjs",
+    "relatorio": "node run.mjs --so-relatorio"
+  },
+  "dependencies": {
+    "openai": "^6.49.0"
+  }
+}

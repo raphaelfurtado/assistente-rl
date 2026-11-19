@@ -1,0 +1,14 @@
+[
+  { "id": "R1", "nome": "Base de conhecimento desatualizada ou com fontes divergentes", "curto": "Base desatualizada/divergente", "p": 3, "i": 5 },
+  { "id": "R2", "nome": "Afirmar algo que a base não diz (ausência vira afirmação)", "curto": "Ausência vira afirmação", "p": 4, "i": 3 },
+  { "id": "R3", "nome": "Alucinação grave mesmo com a base no prompt", "curto": "Alucinação grave com base", "p": 2, "i": 5 },
+  { "id": "R4", "nome": "Atualização do modelo pelo provedor muda o comportamento", "curto": "Modelo muda sem aviso", "p": 3, "i": 4 },
+  { "id": "R5", "nome": "Dados pessoais enviados ao provedor do LLM (LGPD)", "curto": "Dados pessoais (LGPD)", "p": 3, "i": 4 },
+  { "id": "R6", "nome": "Custo e janela de contexto crescem com a base", "curto": "Custo/contexto crescem", "p": 4, "i": 2 },
+  { "id": "R7", "nome": "Resposta segura, mas incompleta em casos urgentes", "curto": "Incompleta na urgência", "p": 3, "i": 3 },
+  { "id": "R8", "nome": "Avaliador automático (LLM juiz) erra ou é rigoroso demais", "curto": "Erro do avaliador", "p": 3, "i": 3 },
+  { "id": "R9", "nome": "Manipulação do prompt (prompt injection)", "curto": "Prompt injection", "p": 2, "i": 4 },
+  { "id": "R10", "nome": "Estrutura obrigatória induz conteúdo inventado", "curto": "Formato induz invenção", "p": 2, "i": 3 },
+  { "id": "R11", "nome": "Indisponibilidade ou lentidão da API do LLM", "curto": "API fora/lenta", "p": 2, "i": 3 },
+  { "id": "R12", "nome": "Variação de texto entre execuções", "curto": "Variação entre execuções", "p": 2, "i": 2 }
+]

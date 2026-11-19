@@ -1,0 +1,782 @@
+{
+  "config": {
+    "modelo": "gpt-4o-mini",
+    "juiz": "gpt-4o",
+    "embedding": "text-embedding-3-small",
+    "execucoes": 3,
+    "temperatura": 1,
+    "temperaturaTeste": 0,
+    "maxTokens": 600,
+    "juizUsado": "gpt-4o"
+  },
+  "T1": [
+    {
+      "id": "A",
+      "nome": "Simples",
+      "n": 45,
+      "clareza": 3.2888888888888888,
+      "completude": 1.7333333333333334,
+      "tom": 4.266666666666667,
+      "seguranca": 3.4,
+      "alucinacao": 0.7777777777777778,
+      "alucinacaoGrave": 0.5555555555555556,
+      "correto": 0.1111111111111111,
+      "fatos": 0.2564102564102564,
+      "cosseno": 0.9010137023626786,
+      "estabilidade": 0.9333333333333333,
+      "tokensEntrada": 29.866666666666667,
+      "tokensSaida": 120.11111111111111,
+      "ms": 2400.311111111111,
+      "porPergunta": [
+        {
+          "id": "P1",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9514371526305377
+        },
+        {
+          "id": "P2",
+          "corretos": 2,
+          "n": 3,
+          "estavel": false,
+          "cosseno": 0.8864297812947847
+        },
+        {
+          "id": "P3",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8216067191087415
+        },
+        {
+          "id": "P4",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9425867794466054
+        },
+        {
+          "id": "P5",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9447943621913121
+        },
+        {
+          "id": "P6",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9653326600508013
+        },
+        {
+          "id": "P7",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9529294552220948
+        },
+        {
+          "id": "P8",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8787266220620636
+        },
+        {
+          "id": "P9",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9357184632342542
+        },
+        {
+          "id": "P10",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8468491526791232
+        },
+        {
+          "id": "P11",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.908558949993016
+        },
+        {
+          "id": "P12",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8678786377567759
+        },
+        {
+          "id": "P13",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9706156903687453
+        },
+        {
+          "id": "P14",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.7681035377810662
+        },
+        {
+          "id": "P15",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8736375716202577
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "nome": "Role",
+      "n": 45,
+      "clareza": 3.888888888888889,
+      "completude": 2.4,
+      "tom": 4.822222222222222,
+      "seguranca": 4.044444444444444,
+      "alucinacao": 0.6666666666666666,
+      "alucinacaoGrave": 0.4444444444444444,
+      "correto": 0.28888888888888886,
+      "fatos": 0.46153846153846156,
+      "cosseno": 0.9007719582459478,
+      "estabilidade": 0.7333333333333333,
+      "tokensEntrada": 101.86666666666666,
+      "tokensSaida": 120.86666666666666,
+      "ms": 2028.6666666666667,
+      "porPergunta": [
+        {
+          "id": "P1",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9102693978760148
+        },
+        {
+          "id": "P2",
+          "corretos": 2,
+          "n": 3,
+          "estavel": false,
+          "cosseno": 0.9188413554329382
+        },
+        {
+          "id": "P3",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9716739481912146
+        },
+        {
+          "id": "P4",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9506926857004547
+        },
+        {
+          "id": "P5",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8683131534435908
+        },
+        {
+          "id": "P6",
+          "corretos": 1,
+          "n": 3,
+          "estavel": false,
+          "cosseno": 0.8928762396634439
+        },
+        {
+          "id": "P7",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9761282493495763
+        },
+        {
+          "id": "P8",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.7986264354780745
+        },
+        {
+          "id": "P9",
+          "corretos": 2,
+          "n": 3,
+          "estavel": false,
+          "cosseno": 0.9622107845722638
+        },
+        {
+          "id": "P10",
+          "corretos": 2,
+          "n": 3,
+          "estavel": false,
+          "cosseno": 0.8335534207062542
+        },
+        {
+          "id": "P11",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8402281845625699
+        },
+        {
+          "id": "P12",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.920935983410205
+        },
+        {
+          "id": "P13",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8885564683925695
+        },
+        {
+          "id": "P14",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9035670984555279
+        },
+        {
+          "id": "P15",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8751059684545202
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "nome": "Estruturado",
+      "n": 45,
+      "clareza": 3.7111111111111112,
+      "completude": 2.1555555555555554,
+      "tom": 4.777777777777778,
+      "seguranca": 3.3555555555555556,
+      "alucinacao": 0.9555555555555556,
+      "alucinacaoGrave": 0.6444444444444445,
+      "correto": 0.24444444444444444,
+      "fatos": 0.3076923076923077,
+      "cosseno": 0.8825340470830887,
+      "estabilidade": 0.9333333333333333,
+      "tokensEntrada": 113.86666666666666,
+      "tokensSaida": 136.4,
+      "ms": 2080,
+      "porPergunta": [
+        {
+          "id": "P1",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8732959825820733
+        },
+        {
+          "id": "P2",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9326548232855454
+        },
+        {
+          "id": "P3",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8416609842801007
+        },
+        {
+          "id": "P4",
+          "corretos": 2,
+          "n": 3,
+          "estavel": false,
+          "cosseno": 0.9161327407121393
+        },
+        {
+          "id": "P5",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8639707977649596
+        },
+        {
+          "id": "P6",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.914032417274322
+        },
+        {
+          "id": "P7",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9567230312927836
+        },
+        {
+          "id": "P8",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8621899718732232
+        },
+        {
+          "id": "P9",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9179584938259082
+        },
+        {
+          "id": "P10",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8178595652693241
+        },
+        {
+          "id": "P11",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9027652786440644
+        },
+        {
+          "id": "P12",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8545323460427926
+        },
+        {
+          "id": "P13",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9481234002596128
+        },
+        {
+          "id": "P14",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.7835972725479925
+        },
+        {
+          "id": "P15",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8525136005914847
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "nome": "Few-Shot",
+      "n": 45,
+      "clareza": 3.8666666666666667,
+      "completude": 2.311111111111111,
+      "tom": 4.8,
+      "seguranca": 4.111111111111111,
+      "alucinacao": 0.6,
+      "alucinacaoGrave": 0.4222222222222222,
+      "correto": 0.26666666666666666,
+      "fatos": 0.3717948717948718,
+      "cosseno": 0.8846786916639658,
+      "estabilidade": 0.8666666666666667,
+      "tokensEntrada": 133.86666666666667,
+      "tokensSaida": 67.13333333333334,
+      "ms": 1271.2,
+      "porPergunta": [
+        {
+          "id": "P1",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.836189054700143
+        },
+        {
+          "id": "P2",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8948253883657323
+        },
+        {
+          "id": "P3",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9806482977240817
+        },
+        {
+          "id": "P4",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8963448990892742
+        },
+        {
+          "id": "P5",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9338193502540669
+        },
+        {
+          "id": "P6",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8614289793609805
+        },
+        {
+          "id": "P7",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9752732233042649
+        },
+        {
+          "id": "P8",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8399956996974903
+        },
+        {
+          "id": "P9",
+          "corretos": 1,
+          "n": 3,
+          "estavel": false,
+          "cosseno": 0.9671135719295489
+        },
+        {
+          "id": "P10",
+          "corretos": 2,
+          "n": 3,
+          "estavel": false,
+          "cosseno": 0.7850332742803149
+        },
+        {
+          "id": "P11",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8956189449597632
+        },
+        {
+          "id": "P12",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9246782701285979
+        },
+        {
+          "id": "P13",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8499396390935949
+        },
+        {
+          "id": "P14",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.7800393162511386
+        },
+        {
+          "id": "P15",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8492324658204943
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "nome": "Políticas",
+      "n": 45,
+      "clareza": 3.8,
+      "completude": 2.2666666666666666,
+      "tom": 4.711111111111111,
+      "seguranca": 4.2,
+      "alucinacao": 0.7555555555555555,
+      "alucinacaoGrave": 0.4,
+      "correto": 0.2222222222222222,
+      "fatos": 0.41025641025641024,
+      "cosseno": 0.8545642597717779,
+      "estabilidade": 0.8666666666666667,
+      "tokensEntrada": 133.86666666666667,
+      "tokensSaida": 108.22222222222223,
+      "ms": 1586.7111111111112,
+      "porPergunta": [
+        {
+          "id": "P1",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8027691259022672
+        },
+        {
+          "id": "P2",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8670207975064734
+        },
+        {
+          "id": "P3",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.7789967735361603
+        },
+        {
+          "id": "P4",
+          "corretos": 2,
+          "n": 3,
+          "estavel": false,
+          "cosseno": 0.9214818198402255
+        },
+        {
+          "id": "P5",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9052502852261252
+        },
+        {
+          "id": "P6",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9013536533545224
+        },
+        {
+          "id": "P7",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9634503827531212
+        },
+        {
+          "id": "P8",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8512796967769484
+        },
+        {
+          "id": "P9",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9220501276387593
+        },
+        {
+          "id": "P10",
+          "corretos": 2,
+          "n": 3,
+          "estavel": false,
+          "cosseno": 0.795047449026084
+        },
+        {
+          "id": "P11",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.6591024922489581
+        },
+        {
+          "id": "P12",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8673575723363608
+        },
+        {
+          "id": "P13",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9888673834722245
+        },
+        {
+          "id": "P14",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.7981173782041018
+        },
+        {
+          "id": "P15",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.7963189587543339
+        }
+      ]
+    },
+    {
+      "id": "F",
+      "nome": "Híbrido + base",
+      "n": 45,
+      "clareza": 4.844444444444444,
+      "completude": 4.4,
+      "tom": 5,
+      "seguranca": 4.866666666666666,
+      "alucinacao": 0.1111111111111111,
+      "alucinacaoGrave": 0.06666666666666667,
+      "correto": 0.8666666666666667,
+      "fatos": 0.9358974358974359,
+      "cosseno": 0.9122277333452212,
+      "estabilidade": 1,
+      "tokensEntrada": 1884.8666666666666,
+      "tokensSaida": 79.24444444444444,
+      "ms": 1459.9777777777779,
+      "porPergunta": [
+        {
+          "id": "P1",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9098020659342393
+        },
+        {
+          "id": "P2",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8783974734473935
+        },
+        {
+          "id": "P3",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.940190391995591
+        },
+        {
+          "id": "P4",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9698579357544208
+        },
+        {
+          "id": "P5",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9341125450528308
+        },
+        {
+          "id": "P6",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.878032955508773
+        },
+        {
+          "id": "P7",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9526046107976932
+        },
+        {
+          "id": "P8",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.969632019504342
+        },
+        {
+          "id": "P9",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9938165549380731
+        },
+        {
+          "id": "P10",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8452062714315957
+        },
+        {
+          "id": "P11",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9043040975103652
+        },
+        {
+          "id": "P12",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9443005407121742
+        },
+        {
+          "id": "P13",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.9366962578927108
+        },
+        {
+          "id": "P14",
+          "corretos": 3,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8243320854914966
+        },
+        {
+          "id": "P15",
+          "corretos": 0,
+          "n": 3,
+          "estavel": true,
+          "cosseno": 0.8021301942066196
+        }
+      ]
+    }
+  ],
+  "T0": {
+    "id": "F",
+    "nome": "Híbrido + base",
+    "n": 45,
+    "clareza": 4.933333333333334,
+    "completude": 4.444444444444445,
+    "tom": 5,
+    "seguranca": 4.822222222222222,
+    "alucinacao": 0.06666666666666667,
+    "alucinacaoGrave": 0.06666666666666667,
+    "correto": 0.8666666666666667,
+    "fatos": 0.9615384615384616,
+    "cosseno": 0.9904171138476803,
+    "estabilidade": 1,
+    "tokensEntrada": 1884.8666666666666,
+    "tokensSaida": 75.75555555555556,
+    "ms": 1360.4222222222222
+  }
+}
