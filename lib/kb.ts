@@ -22,7 +22,7 @@ export const KB: KbDoc[] = [
     id: "kb-precos",
     produto: "rlpress",
     keys: "preco precos custa valor pacote pacotes 100 250 500 stripe cartao pagamento mensalidade personalizado",
-    text: "RLPRESS: 100 matérias por R$ 490,00 (R$ 4,90 cada); 250 por R$ 1.078,00 (R$ 4,31 cada); 500 por R$ 1.960,00 (R$ 3,92 cada, o mais vendido); quantidade personalizada a R$ 4,90 cada. Pagamento com cartão via Stripe, créditos liberados após a confirmação. Sem mensalidade fixa.",
+    text: "RLPRESS: 100 matérias por R$ 490,00 (R$ 4,90 cada); 250 por R$ 1.078,00 (R$ 4,31 cada, 12% de desconto); 500 por R$ 1.960,00 (R$ 3,92 cada, 20% de desconto, o mais vendido); quantidade personalizada a R$ 4,90 cada. O assistente virtual não cria nem concede cupons ou descontos. Pagamento com cartão via Stripe, créditos liberados após a confirmação. Sem mensalidade fixa.",
   },
   {
     id: "kb-rlpress-contratar",
@@ -52,7 +52,7 @@ export const KB: KbDoc[] = [
     id: "kb-wordpress-erros",
     produto: "rlpress",
     keys: "wordpress erro 401 403 404 vermelho falha conexao credenciais permissao recusou plugin seguranca firewall rest api yoast",
-    text: "Erros ao conectar ou enviar ao WordPress: HTTP 401 = credenciais não reconhecidas, quase sempre o campo Usuário diferente do Nome de usuário, ou a senha colada é a de login e não a Senha de aplicativo, ou foi copiada pela metade; HTTP 403 = o usuário precisa ser Editor ou Administrador; HTTP 404 = URL errada (use o domínio, ou a subpasta, sem /wp-admin); \"O WordPress recusou a requisição\" = plugin de segurança, firewall ou API REST desativada (falar com quem administra o site); \"Yoast não recebeu a palavra-chave/meta\" = o post foi criado, mas falta no portal o arquivo de integração do Yoast. Se nada resolver, anote a mensagem exata e o horário e abra um chamado.",
+    text: "Erros ao conectar ou enviar ao WordPress: HTTP 401 = credenciais não reconhecidas, quase sempre o campo Usuário diferente do Nome de usuário, ou a senha colada é a de login e não a Senha de aplicativo, ou foi copiada pela metade; HTTP 403 = o usuário precisa ser Editor ou Administrador; HTTP 404 = URL errada (use o domínio, ou a subpasta, sem /wp-admin); \"O WordPress recusou a requisição\" = plugin de segurança, firewall ou API REST desativada (falar com quem administra o site); \"Yoast não recebeu a palavra-chave/meta\" = o post foi criado, mas falta no portal o arquivo de integração do Yoast. Se nada resolver, abra um chamado em rldocs.realleader.com/chamados (tipo Problema) com: print da tela de erro, o usuário do WordPress usado, a URL do site, a mensagem exata e o horário da tentativa.",
   },
   {
     id: "kb-wordpress-envio",
@@ -100,7 +100,19 @@ export const KB: KbDoc[] = [
     id: "kb-portal",
     produto: "portal",
     keys: "portal site campeonatos ligas copas agenda jogos simulador probabilidades classificacao realleader peso metodo adversario forca oficial diferenca",
-    text: "Portal RealLeader: análise de campeonatos de pontos corridos desde 2017, com 21 campeonatos (16 ligas e 5 copas), agenda de jogos com probabilidades e simulador. A Classificação RealLeader pondera a força dos adversários enfrentados, por isso pode diferir da tabela oficial. O detalhamento está nas páginas O Método e Os Fundamentos.",
+    text: "Portal RealLeader: análise de campeonatos de pontos corridos desde 2017, com 21 campeonatos (16 ligas e 5 copas), agenda de jogos com probabilidades e simulador. A Classificação RealLeader é diferente da tabela oficial porque considera a força de quem cada time enfrentou: o Peso RealLeader estima a força relativa de cada clube rodada a rodada (com pesos diferentes para jogos em casa e fora); em cada jogo, os pontos conquistados + o Peso RL do adversário formam a Pontuação Real (PRL) da partida, e a Classificação RealLeader é a soma dos PRL. Assim, vencer fora um adversário forte vale mais que vencer em casa um fraco. Explicação completa em O Método (https://realleader.com/o-metodo) e Os Fundamentos (https://fundamentos.realleader.com).",
+  },
+  {
+    id: "kb-aplicativo",
+    produto: "geral",
+    keys: "aplicativo app iphone android celular ios loja app store play store baixar instalar atalho tela inicial mobile",
+    text: "O RealLeader não tem aplicativo para iPhone ou Android: funciona apenas pelo site, no navegador do celular ou do computador. Para acessar como se fosse um app, dá para criar um atalho do site na tela inicial do celular (no iPhone, pelo Safari: Compartilhar → Adicionar à Tela de Início; no Android, pelo Chrome: menu ⋮ → Adicionar à tela inicial).",
+  },
+  {
+    id: "kb-glossario",
+    produto: "rltv",
+    keys: "o que e ndi browser source significa significado conceito explicar fonte navegador obs vmix transmissao rede video",
+    text: "Termos de transmissão: NDI (Network Device Interface) é um protocolo para enviar vídeo e áudio pela rede local entre computadores e equipamentos de produção, sem cabos de vídeo. Browser Source (fonte de navegador) é um tipo de fonte do OBS e do vMix que exibe uma página da web dentro da cena; é assim que as artes do RLTV entram na transmissão, colando a URL do RLTV em 1920×1080. O RLTV não tem saída NDI nativa; a forma suportada é o Browser Source.",
   },
   {
     id: "kb-rlapi",

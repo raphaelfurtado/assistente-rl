@@ -10,6 +10,20 @@ const HANDOFF: Record<Lang, string> = {
   es: "Este caso necesita una persona del equipo. Abre un ticket en rldocs.realleader.com/chamados (o, en RLPRESS, Central de ayuda → Abrir ticket): el equipo responde en hasta 48 horas, incluidos fines de semana. Registré el resumen abajo para agilizar.",
 };
 
+// Fechamento quando o cliente já recebeu a solução da base (erro nos dados): sugere o chamado sem tratar como caso perdido.
+const TAIL_BUG: Record<Lang, string> = {
+  pt: "Se o problema continuar, abra um chamado em rldocs.realleader.com/chamados (ou, no RLPRESS, Central de ajuda → Abrir chamado) com um print da tela e a mensagem de erro. A equipe responde em até 48 horas.",
+  en: "If the problem persists, open a ticket at rldocs.realleader.com/chamados (or, in RLPRESS, Help center → Open ticket) with a screenshot and the error message. The team replies within 48 hours.",
+  es: "Si el problema continúa, abre un ticket en rldocs.realleader.com/chamados (o, en RLPRESS, Central de ayuda → Abrir ticket) con una captura y el mensaje de error. El equipo responde en hasta 48 horas.",
+};
+
+// Parceria em que a RLAPI já resolve: o comercial entra só para Enterprise ou acordos específicos.
+const TAIL_PARCERIA: Record<Lang, string> = {
+  pt: "Se precisarem de volume maior, SLA, contrato ou outro tipo de parceria, o time comercial cuida disso.",
+  en: "If you need higher volume, an SLA, a contract or another kind of partnership, our sales team handles it.",
+  es: "Si necesitan más volumen, SLA, contrato u otro tipo de alianza, el equipo comercial se encarga.",
+};
+
 const QUALIFY: Record<Lang, string> = {
   pt: "\n\nPara o time comercial já chegar preparado, me conte: 1) nome da empresa, 2) como pretende usar os dados (portal, TV, app), 3) volume esperado, 4) produto de interesse (RLPRESS, RLTV ou API).",
   en: "\n\nSo our sales team comes prepared, please tell me: 1) company name, 2) how you plan to use the data (website, TV, app), 3) expected volume, 4) product of interest (RLPRESS, RLTV or API).",
@@ -102,10 +116,21 @@ export async function runPipeline(message: string, history: Turn[]): Promise<Cha
         /* sem orientação imediata: segue só o encaminhamento */
       }
     }
+    // Erro nos dados com solução na base: o cliente resolve sozinho; o chamado fica como sugestão.
+    if (agora && info.tipo === "bug") {
+      steps.push({ layer: 4, skip: true, result: "sugerido, não necessário", kv: [["motivo", "solução encontrada na base"]] });
+      // Se a própria resposta já orientou o chamado, não repete.
+      const jaCitaChamado = /chamado|ticket/i.test(agora);
+      return done({ reply: jaCitaChamado ? agora : `${agora}\n\n${TAIL_BUG[replyLang]}`, layer: 3, lang: replyLang, meta: "Solução da documentação, com chamado sugerido se persistir." });
+    }
     if (!agora) steps.push({ layer: 3, skip: true, result: "pulada", kv: [] });
     steps.push({ layer: 4, result: "encaminhado", kv: [["motivo", `tipo "${info.tipo}" configurado para humano`]] });
+    const corpo =
+      agora && info.tipo === "parceria"
+        ? `${agora}\n\n${TAIL_PARCERIA[replyLang]}${QUALIFY[replyLang]}`
+        : HANDOFF[replyLang] + (info.tipo === "parceria" ? QUALIFY[replyLang] : "");
     return done({
-      reply: (agora ? `${agora}\n\n` : "") + HANDOFF[replyLang] + (info.tipo === "parceria" ? QUALIFY[replyLang] : ""),
+      reply: corpo,
       layer: 4,
       lang: replyLang,
       meta: reason,

@@ -46,6 +46,16 @@ const DEFAULT_RULES: AdminRule[] = [
     motivo: "Reembolso sempre vai para humano: a política publicada fala em assinatura e não deixa claro se vale para pacotes de créditos.",
   },
   {
+    id: "cupom", nome: "Recusar cupom, desconto ou manipulação", acao: "responder", fonte: "kb-precos", ativo: true, motivo: "",
+    gatilhos: ["cupom", "desconto", "ignore instruc", "ignore suas", "esqueca instruc", "codigo promocional"],
+    resposta: "Os pacotes maiores do RLPRESS já saem mais baratos por matéria:\n• 250 matérias: R$ 4,31 cada (12% a menos que no pacote de 100)\n• 500 matérias: R$ 3,92 cada (20% a menos)\nFora isso, não consigo criar cupons nem conceder outros descontos por aqui. Posso ajudar com mais alguma dúvida?",
+  },
+  {
+    id: "materia-publicada-erro", nome: "Matéria já publicada com erro", acao: "responder", fonte: "kb-ia-errou-dado", ativo: true, motivo: "",
+    gatilhos: ["publicad erro", "publicad errad", "publicad equivocad", "post errad", "portal errad"],
+    resposta: "Dá para corrigir agora mesmo, direto no WordPress:\n1. Abra o post no painel do WordPress e edite o trecho errado (ou mude o status para rascunho enquanto corrige).\n2. Não adianta editar no RLPRESS: a matéria que já foi enviada não é atualizada por lá, e reenviar cria um post duplicado.\n3. Para evitar que se repita, confira a tabela \"Conteúdo de origem\" e os parâmetros da fonte (rodada, campeonato, clube) antes de gerar.\nSe precisar de ajuda da equipe, abra um chamado em rldocs.realleader.com/chamados (ou, no RLPRESS, Central de ajuda → Abrir chamado) com o link do post e um print do erro. A resposta chega em até 48 horas.",
+  },
+  {
     id: "regenerar", nome: "Regenerar gasta crédito", acao: "responder", fonte: "kb-creditos-consumo", ativo: true, motivo: "",
     gatilhos: ["regener", "gasta credit", "consom credit", "cobra credit"],
     resposta: "1 crédito = 1 matéria gerada. Regenerar uma matéria consome um novo crédito. Editar, salvar e reenviar para o WordPress é gratuito. Se a IA devolver um resultado inválido, o crédito não é cobrado.",
@@ -59,6 +69,16 @@ const DEFAULT_RULES: AdminRule[] = [
     id: "contratar-rlpress", nome: "Como contratar o RLPRESS", acao: "responder", fonte: "kb-rlpress-contratar", ativo: true, motivo: "",
     gatilhos: ["contrat rlpress", "assinar rlpress", "comprar rlpress", "adquirir rlpress", "comprar credit", "adquirir credit", "comecar usar rlpress"],
     resposta: "Contratar o RLPRESS é rápido e não precisa falar com vendedor:\n1. Crie sua conta RealLeader em realleader.com/cadastrar (ou entre com a conta que já tem).\n2. Escolha um pacote de créditos: 100, 250 ou 500 matérias, ou uma quantidade personalizada.\n3. Pague com cartão. Os créditos são liberados assim que o pagamento é confirmado e valem 45 dias.\nNão há mensalidade. Para equipes, peça uma organização na sua conta, com um login por pessoa.",
+  },
+  {
+    id: "api", nome: "API (RLAPI)", acao: "responder", fonte: "kb-rlapi", ativo: true, motivo: "",
+    gatilhos: ["api", "rlapi", "usar dados", "integrar dados", "endpoint"],
+    resposta: "A RLAPI é a nossa API: entrega os mesmos dados do realleader.com (classificação, probabilidades, jogos, copas e mais) em 52 endpoints REST, em JSON.\nComo começar:\n1. Entre em rlapi.realleader.com com a sua conta RealLeader (ou crie uma em realleader.com/cadastrar).\n2. Crie sua chave de acesso no menu \"API Keys\".\n3. Escolha um plano em realleader.com/rlapi: Free (grátis), Starter (R$ 49/mês), Pro (R$ 149/mês) ou Business (R$ 449/mês).\nDocumentação: rldocs.realleader.com/rlapi.\nPara volume maior, SLA, contrato e nota fiscal existe o plano Enterprise, sob consulta com o time pela página da RLAPI.",
+  },
+  {
+    id: "aplicativo", nome: "Aplicativo para celular", acao: "responder", fonte: "kb-aplicativo", ativo: true, motivo: "",
+    gatilhos: ["iphone", "android", "app store", "play store", "aplicativo celular", "app celular", "aplicativo movel", "baixar aplicativo", "baixar app"],
+    resposta: "Não temos aplicativo para iPhone ou Android: o RealLeader funciona pelo site, no navegador do celular ou do computador.\nPara abrir como se fosse um app, crie um atalho na tela inicial:\n• iPhone (Safari): Compartilhar → Adicionar à Tela de Início.\n• Android (Chrome): menu ⋮ → Adicionar à tela inicial.",
   },
   {
     id: "precos", nome: "Preços dos pacotes", acao: "responder", fonte: "kb-precos", ativo: true, motivo: "",
