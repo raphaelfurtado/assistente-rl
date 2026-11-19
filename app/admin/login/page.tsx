@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import SiteNav from "@/components/SiteNav";
 
 export default function AdminLogin() {
   const [password, setPassword] = useState("");
@@ -28,6 +29,9 @@ export default function AdminLogin() {
 
   return (
     <main className="page">
+      <div className="wrap">
+        <SiteNav atual="admin" />
+      </div>
       <div className="login-box card">
         <div className="eyebrow"><a href="/">Assistente RL</a> · admin</div>
         <h1 className="login-title">Entrar no admin</h1>

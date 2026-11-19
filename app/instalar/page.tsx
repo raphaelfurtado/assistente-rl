@@ -1,4 +1,5 @@
 import Installer from "@/components/Installer";
+import SiteNav from "@/components/SiteNav";
 
 export const metadata = { title: "Instalar o widget" };
 
@@ -6,6 +7,7 @@ export default function InstalarPage() {
   return (
     <main className="page">
       <div className="wrap narrow">
+        <SiteNav atual="instalar" />
         <header className="top">
           <div className="eyebrow">
             <a href="/">Assistente RL</a> · instalação

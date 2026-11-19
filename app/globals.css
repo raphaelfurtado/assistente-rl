@@ -32,7 +32,25 @@ body {
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 24px 40px;
 }
-.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 20px; }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+
+/* Navegação comum */
+.site-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.site-brand { font-family: var(--font-display), "Arial Narrow", sans-serif; font-weight: 700; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: .02em; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+.site-nav li a { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--muted); text-decoration: none; }
+.site-nav li a:hover { color: var(--ink); background: var(--sunk); }
+.site-nav li a[aria-current="page"] { color: var(--accent-ink); background: var(--accent); }
+.login-box { margin-top: 6vh; }
+
+/* Atalhos da home */
+.shortcuts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 960px) { .shortcuts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .shortcuts { grid-template-columns: minmax(0, 1fr); } }
+.shortcut { display: grid; gap: 4px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); text-decoration: none; }
+.shortcut:hover { border-color: var(--accent); }
+.shortcut strong { font-size: 14.5px; }
+.shortcut span { font-size: 12.5px; color: var(--muted); }
 header.top { display: grid; gap: 6px; }
 .eyebrow { font-family: var(--font-mono), ui-monospace, monospace; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 h1 { font-family: var(--font-display), "Arial Narrow", sans-serif; font-weight: 700; font-size: clamp(30px, 4.4vw, 42px); line-height: 1.05; margin: 0; text-wrap: balance; }

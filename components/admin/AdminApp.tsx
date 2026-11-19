@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Demo from "@/components/Demo";
+import SiteNav from "@/components/SiteNav";
 import { PRODUTOS, TIPOS, type AdminConfig, type AdminRule, type KbEntry } from "@/lib/config";
 import { matchRule, triggerMatches } from "@/lib/rules";
 import { norm } from "@/lib/text";
@@ -97,6 +98,7 @@ export default function AdminApp({ initial, storage }: { initial: AdminConfig; s
   return (
     <main className="page">
       <div className="wrap">
+        <SiteNav atual="admin" />
         <header className="admin-top">
           <div className="admin-title">
             <div className="eyebrow"><a href="/">Assistente RL</a> · admin</div>

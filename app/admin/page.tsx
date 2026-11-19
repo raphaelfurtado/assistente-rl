@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import AdminApp from "@/components/admin/AdminApp";
+import SiteNav from "@/components/SiteNav";
 import { adminConfigured, isAdmin } from "@/lib/auth";
 import { getConfig, storageKind } from "@/lib/store";
 
@@ -10,6 +11,9 @@ export default async function AdminPage() {
   if (!adminConfigured()) {
     return (
       <main className="page">
+        <div className="wrap">
+          <SiteNav atual="admin" />
+        </div>
         <div className="login-box card">
           <h1 className="login-title">Admin desligado</h1>
           <p className="hint">
