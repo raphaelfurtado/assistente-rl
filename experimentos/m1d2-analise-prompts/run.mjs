@@ -446,6 +446,66 @@ function relatorio() {
   }
 
   md += mp;
+
+  // ---- Tabelas visuais (feedback: comparação mais visual, resultado de cada teste) ----
+  const barra = (frac, n = 10) => "█".repeat(Math.round(frac * n)) + "░".repeat(n - Math.round(frac * n));
+  let tv = `## Placar visual (média de ${PERGUNTAS.length} perguntas × ${CFG.execucoes} execuções)\n\n`;
+  tv += head(["Critério", ...T1.map(nome)]);
+  const lin = (rot, f, fmt) => { tv += `| ${rot} | ${T1.map((s) => `${barra(f(s))} ${fmt(s)}`).join(" | ")} |\n`; };
+  lin("Comportamento correto", (s) => s.correto, (s) => pct(s.correto));
+  lin("Sem alucinação", (s) => 1 - s.alucinacao, (s) => pct(1 - s.alucinacao));
+  lin("Fatos do gabarito", (s) => s.fatos, (s) => pct(s.fatos));
+  lin("Segurança (1–5)", (s) => (s.seguranca - 1) / 4, (s) => f1(s.seguranca));
+  lin("Completude (1–5)", (s) => (s.completude - 1) / 4, (s) => f1(s.completude));
+  lin("Tom (1–5)", (s) => (s.tom - 1) / 4, (s) => f1(s.tom));
+  lin("Clareza (1–5)", (s) => (s.clareza - 1) / 4, (s) => f1(s.clareza));
+  lin("Estabilidade", (s) => s.estabilidade, (s) => pct(s.estabilidade));
+  tv += `\nCada bloco █ = 10% da escala; barra cheia = melhor resultado possível.\n\n`;
+
+  // Matriz de testes: cada célula resume as 3 execuções de uma pergunta numa estratégia.
+  const G2r = resumoDe("G2", ESTRATEGIA_G2);
+  const colsM = [...T1.map((s) => ["T1", s.id, s]), ...(G2r.n ? [["G2", "G2", G2r]] : [])];
+  tv += `## Matriz de testes (${PERGUNTAS.length} perguntas × ${colsM.length} estratégias × ${CFG.execucoes} execuções)\n\n`;
+  tv += `✅ acertou nas ${CFG.execucoes} execuções · 🟨 acertou em parte · ❌ errou nas ${CFG.execucoes} · ⚠️ teve alucinação grave em pelo menos uma\n\n`;
+  tv += head(["Pergunta", "Tipo", ...colsM.map((c) => (c[1] === "G2" ? "G v2*" : c[1]))]);
+  const contagem = Object.fromEntries(colsM.map((c) => [c[1], { ok: 0, parcial: 0, erro: 0, grave: 0 }]));
+  for (const q of PERGUNTAS) {
+    const cells = colsM.map(([exp, id, s]) => {
+      const p = s.porPergunta.find((x) => x.q.id === q.id);
+      const graves = [1, 2, 3].filter((r) => raw.judge[`${exp}|${id}|${q.id}|${r}`]?.alucinacao === "grave").length;
+      const ic = p.corretos === p.n ? "✅" : p.corretos === 0 ? "❌" : "🟨";
+      const k = contagem[id];
+      if (ic === "✅") k.ok++; else if (ic === "❌") k.erro++; else k.parcial++;
+      if (graves) k.grave++;
+      return `${ic}${graves ? "⚠️" : ""}`;
+    });
+    tv += `| ${q.id} · ${q.texto} | ${q.tipo} | ${cells.join(" | ")} |\n`;
+  }
+  tv += `| **Total ✅ / 🟨 / ❌** | | ${colsM.map((c) => { const k = contagem[c[1]]; return `**${k.ok} / ${k.parcial} / ${k.erro}**`; }).join(" | ")} |\n`;
+  tv += `| **Perguntas com ⚠️** | | ${colsM.map((c) => `**${contagem[c[1]].grave}**`).join(" | ")} |\n`;
+  if (G2r.n) tv += `\n\\* G v2 = recomendação aplicada (seção 12), com temperatura 0. Na P6, o juiz deu 🟨, mas a conferência manual deu ❌: as 3 respostas omitiram a alternativa (Browser Source).\n`;
+  tv += "\n";
+
+  // Hipótese do "porquê": respostas mais longas fazem mais afirmações e têm mais chance de inventar?
+  const semBase = T1.filter((s) => s.id !== "F");
+  const xs = semBase.map((s) => s.tokensSaida), ys = semBase.map((s) => s.alucinacao);
+  const mx = media(xs), my = media(ys);
+  const r = xs.reduce((a, x, i) => a + (x - mx) * (ys[i] - my), 0) / Math.sqrt(xs.reduce((a, x) => a + (x - mx) ** 2, 0) * ys.reduce((a, y) => a + (y - my) ** 2, 0));
+  tv += `## Tamanho da resposta × alucinação\n\nEntre as estratégias sem base (A–E), correlação de Pearson entre tokens de saída e taxa de alucinação: **r = ${f2(r)}**.\n\n`;
+  tv += head(["Estratégia", "Tokens de saída", "Respostas com alucinação"]);
+  for (const s of T1) tv += `| ${nome(s)} | ${Math.round(s.tokensSaida)} | ${pct(s.alucinacao)} |\n`;
+  writeFileSync(path.join(OUT, "tabelas-visuais.md"), tv);
+  writeFileSync(path.join(G, "6-tamanho-x-alucinacao.svg"), dispersao({
+    titulo: "Respostas mais longas inventaram mais (sem a base)",
+    subtitulo: `Tokens de saída × respostas com alucinação · A–E: r = ${f2(r)} · F tem a base no contexto`,
+    pontos: T1.map((s) => ({ rotulo: nome(s), x: s.tokensSaida, y: s.alucinacao * 100, destaque: s.id === "F" })),
+    xMax: 200,
+    rotuloX: "Tokens de saída por resposta (média)",
+    rotuloY: "Respostas com alucinação",
+    formatoX: (v) => Math.round(v).toString(),
+  }));
+  md += tv;
+
   writeFileSync(path.join(OUT, "tabelas.md"), md);
   writeFileSync(path.join(OUT, "resumo.json"), JSON.stringify({ config: { ...CFG, juizUsado: raw.meta.juizUsado }, T1: T1.map(({ porPergunta, ...s }) => ({ ...s, porPergunta: porPergunta.map((p) => ({ id: p.q.id, corretos: p.corretos, n: p.n, estavel: p.estavel, cosseno: p.cos })) })), T0: { ...T0, porPergunta: undefined } }, null, 2));
 
