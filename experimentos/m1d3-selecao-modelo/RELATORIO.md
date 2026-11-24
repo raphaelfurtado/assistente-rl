@@ -172,18 +172,28 @@ Esses são justamente os casos sensíveis que o projeto decidiu, na Disciplina 0
 
 ## 6. Decisão recomendada
 
-### 6.1 Matriz ponderada
+### 6.1 Tabela de decisão consolidada
 
-| Critério | Peso | Astra | Sol | Luna | **4o mini** | gpt-oss | qwen 3B | Por que o peso |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Qualidade da resposta | 25% | 97 | 97 | 93 | 90 | 93 | 54 | É o objetivo do produto |
-| Risco (sem alucinação grave) | 20% | 100 | 100 | 100 | 100 | 97 | 82 | Fato inventado gera prejuízo |
-| Classificação | 10% | 98 | 93 | 88 | 89 | 83 | 44 | Define o roteamento |
-| Formato | 10% | 100 | 100 | 100 | 100 | 100 | 99 | O sistema depende de JSON válido |
-| Consistência | 10% | 95 | 93 | 98 | 87 | 80 | 68 | Mesmo cliente, mesmo comportamento |
-| Latência (p95) | 10% | 66 | 65 | 60 | 82 | 100 | 0 | Chat exige resposta em segundos |
-| Custo | 15% | 0 | 33 | 99 | 100 | 84 | 100 | Margem do SaaS conforme o volume |
-| **Nota ponderada** | | **80,0** | **84,3** | **92,8** | **93,2** | **91,6** | **66,3** | |
+Cada critério recebe nota de 0 a 100 (maior = melhor). A nota ponderada é a soma de nota × peso, e a última coluna liga a nota à decisão. É a mesma tabela do [resumo executivo](RESUMO-EXECUTIVO.md).
+
+| Posição | Modelo | Qualidade (25%) | Risco (20%) | Classificação (10%) | Formato (10%) | Consistência (10%) | Latência (10%) | Custo (15%) | **Nota ponderada** | **Decisão** |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1º | **GPT-4o mini** | 90 | 100 | 89 | 100 | 87 | 82 | 100 | **93,2** | **Principal** |
+| 2º | GPT-6 Luna | 93 | 100 | 88 | 100 | 98 | 60 | 99 | **92,8** | Sucessor a monitorar |
+| 3º | gpt-oss-120b (Groq) | 93 | 97 | 83 | 100 | 80 | 100 | 84 | **91,6** | Contingência / soberania |
+| 4º | GPT-6.2 Sol | 97 | 100 | 93 | 100 | 93 | 65 | 33 | **84,3** | Não recomendado agora |
+| 5º | GPT-6.2 Astra | 97 | 100 | 98 | 100 | 95 | 66 | 0 | **80,0** | Não recomendado agora |
+| 6º | qwen2.5:3b (local) | 54 | 82 | 44 | 99 | 68 | 0 | 100 | **66,3** | Não viável |
+
+| Critério | Peso | Como a nota 0–100 é calculada | Por que o peso |
+| --- | --- | --- | --- |
+| Qualidade | 25% | % de respostas com comportamento correto (juiz, contra o gabarito) | É o objetivo do produto |
+| Risco | 20% | 100 − % de respostas com alucinação grave | Fato inventado gera prejuízo |
+| Classificação | 10% | % de acerto de produto + tipo + idioma | Define o roteamento |
+| Formato | 10% | Média de JSON válido (classificação) e formato correto (resposta) | O sistema depende de JSON válido |
+| Consistência | 10% | Média da estabilidade entre as 3 execuções (resposta e classificação) | Mesmo cliente, mesmo comportamento |
+| Latência | 10% | p95 da resposta, em escala logarítmica entre o mais rápido e o mais lento | Chat exige resposta em segundos |
+| Custo | 15% | Custo por mensagem, em escala logarítmica entre o mais barato e o mais caro | Margem do SaaS conforme o volume |
 
 ![Nota ponderada](results/graficos/1-nota-ponderada.svg)
 
@@ -205,15 +215,27 @@ Os três primeiros ficam a menos de 2 pontos entre si em todos os cenários. Por
 | **Não recomendado agora** | GPT-6.2 Sol e Astra | Melhor classificação (Astra, 98%), mas **0 ponto de ganho** no fluxo real, **16 a 60 vezes o custo** e mais lentidão. Em 100 mil mensagens por mês, o Astra custaria US$ 840, contra US$ 14 do 4o mini |
 | **Não viável** | qwen2.5:3b local | 54% de acerto, 18% de alucinação grave, 44% na classificação e p95 de 33 s num notebook sem GPU. Para rodar localmente com qualidade, seria preciso um modelo maior e GPU dedicada |
 
-### 6.3 Equilíbrio entre técnica e viabilidade econômica
+### 6.3 Sensibilidade de custo por volume
 
-| Volume mensal | GPT-4o mini | gpt-oss-120b | GPT-6.2 Sol | GPT-6.2 Astra |
-| --- | --- | --- | --- | --- |
-| 1.200 mensagens (hoje + 12 meses) | US$ 0,16 | US$ 0,32 | US$ 2,60 | US$ 10,09 |
-| 100 mil mensagens (SaaS com vários clientes) | US$ 14 | US$ 27 | US$ 217 | US$ 840 |
-| 1 milhão de mensagens | US$ 140 | US$ 270 | US$ 2.170 | US$ 8.400 |
+| Modelo | 1.200 msg/mês (hoje) | 100 mil msg/mês (SaaS) | 1 milhão msg/mês | Por ano, com 1 milhão/mês | Quantas vezes o recomendado |
+| --- | --- | --- | --- | --- | --- |
+| **GPT-4o mini** | **US$ 0,16** | **US$ 14** | **US$ 137** | **US$ 1.647** | **1,0×** |
+| GPT-6 Luna | US$ 0,17 | US$ 14 | US$ 143 | US$ 1.712 | 1,0× |
+| gpt-oss-120b (Groq) | US$ 0,32 | US$ 27 | US$ 268 | US$ 3.212 | 1,9× |
+| GPT-6.2 Sol | US$ 2,60 | US$ 217 | US$ 2.170 | US$ 26.042 | 15,8× |
+| GPT-6.2 Astra | US$ 10 | US$ 840 | US$ 8.405 | US$ 100.856 | 61,2× |
+| qwen2.5:3b (local) | sem custo de API | sem custo de API | sem custo de API | + servidor com GPU | — |
 
-No volume atual, **o custo de qualquer modelo é irrisório**, e o que pesa é latência, qualidade e risco. Quando o produto escalar, o custo passa a definir a margem. Pagar 60 vezes mais por um modelo que não melhora o resultado no fluxo real seria um erro caro.
+**A decisão muda com o volume?** Quanto maior o volume, mais o custo deveria pesar na decisão. Mesmo com o custo valendo 50%, o resultado não muda, e a vantagem do recomendado aumenta:
+
+| Peso do custo | 1º lugar | 2º lugar | 3º lugar |
+| --- | --- | --- | --- |
+| 15% (pesos do projeto) | **GPT-4o mini (93,2)** | GPT-6 Luna (92,8) | gpt-oss-120b (91,6) |
+| 25% | **GPT-4o mini (94,0)** | GPT-6 Luna (93,5) | gpt-oss-120b (90,6) |
+| 35% | **GPT-4o mini (94,8)** | GPT-6 Luna (94,3) | gpt-oss-120b (89,7) |
+| 50% | **GPT-4o mini (96,0)** | GPT-6 Luna (95,4) | gpt-oss-120b (88,4) |
+
+No volume atual, **o custo de qualquer modelo é irrisório**, e o que pesa é latência, qualidade e risco. Quando o produto escalar, o custo passa a definir a margem: com 1 milhão de mensagens por mês, o premium mais caro custaria cerca de **US$ 99 mil a mais por ano** para o mesmo resultado no fluxo real.
 
 ## 7. Por que os modelos se comportaram assim
 

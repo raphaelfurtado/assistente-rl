@@ -27,4 +27,6 @@ export const CONDICOES = { temperatura: 1, maxTokens: 2000, execucoes: 3 };
 // 35% resolvidas por regras (sem LLM); as outras 65% passam pela classificação;
 // cerca de 45% de todas as mensagens chegam à resposta com a base (LLM com fontes ou orientação imediata).
 export const VOLUMES = [400, 1200, 3000];
+// Sensibilidade de custo para apresentação executiva: volume atual, SaaS com vários clientes e escala alta.
+export const SENSIBILIDADE = [1200, 100000, 1000000];
 export const FLUXO = { classificacao: 0.65, resposta: 0.45 };

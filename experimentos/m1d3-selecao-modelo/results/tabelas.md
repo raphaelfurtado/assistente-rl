@@ -67,6 +67,43 @@ Todas as barras em 0–100 (maior = melhor). Custo e latência em escala logarí
 | Custo pesando 35% | GPT-4o mini (94,8) > GPT-6 Luna (94,3) > gpt-oss-120b (Groq) (89,7) > qwen2.5:3b (local) (74,2) > GPT-6.2 Sol (72,2) > GPT-6.2 Astra (61,2) |
 | Qualidade e risco pesando 72% | GPT-6 Luna (94,5) > GPT-4o mini (93,8) > gpt-oss-120b (Groq) (93,2) > GPT-6.2 Sol (91,1) > GPT-6.2 Astra (88,9) > qwen2.5:3b (local) (66,5) |
 
+## Tabela de decisão consolidada
+
+Notas de 0 a 100 por critério (maior = melhor); a nota ponderada é a soma de nota × peso.
+
+| Posição | Modelo | Qualidade (25%) | Risco (20%) | Classificação (10%) | Formato (10%) | Consistência (10%) | Latência (10%) | Custo (15%) | **Nota ponderada** | Decisão |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1º | GPT-4o mini | 90 | 100 | 89 | 100 | 87 | 82 | 100 | **93,2** | **Principal** |
+| 2º | GPT-6 Luna | 93 | 100 | 88 | 100 | 98 | 60 | 99 | **92,8** | Sucessor a monitorar |
+| 3º | gpt-oss-120b (Groq) | 93 | 97 | 83 | 100 | 80 | 100 | 84 | **91,6** | Contingência / soberania |
+| 4º | GPT-6.2 Sol | 97 | 100 | 93 | 100 | 93 | 65 | 33 | **84,3** | Não recomendado agora |
+| 5º | GPT-6.2 Astra | 97 | 100 | 98 | 100 | 95 | 66 | 0 | **80,0** | Não recomendado agora |
+| 6º | qwen2.5:3b (local) | 54 | 82 | 44 | 99 | 68 | 0 | 100 | **66,3** | Não viável |
+
+## Sensibilidade de custo por volume
+
+Custo mensal e anual por modelo, com o mesmo fluxo de mensagens (35% resolvidas por regras, sem LLM).
+
+| Modelo | 1.200 msg/mês | 100.000 msg/mês | 1.000.000 msg/mês | Por ano, com 1.000.000 msg/mês | Quantas vezes o GPT-4o mini |
+| --- | --- | --- | --- | --- | --- |
+| GPT-4o mini | US$ 0,16 | US$ 14 | US$ 137 | US$ 1.647 | 1,0× |
+| GPT-6 Luna | US$ 0,17 | US$ 14 | US$ 143 | US$ 1.712 | 1,0× |
+| gpt-oss-120b (Groq) | US$ 0,32 | US$ 27 | US$ 268 | US$ 3.212 | 1,9× |
+| GPT-6.2 Sol | US$ 2,60 | US$ 217 | US$ 2.170 | US$ 26.042 | 15,8× |
+| GPT-6.2 Astra | US$ 10 | US$ 840 | US$ 8.405 | US$ 100.856 | 61,2× |
+| qwen2.5:3b (local) | US$ 0 | US$ 0 | US$ 0 | US$ 0 | sem custo de API |
+
+O modelo local não tem custo de API, mas exige servidor próprio (com GPU para uso público), um custo fixo que esta tabela não inclui.
+
+**A decisão muda se o custo pesar mais (como acontece quando o volume cresce)?**
+
+| Peso do custo | 1º lugar | 2º lugar | 3º lugar |
+| --- | --- | --- | --- |
+| 15% | GPT-4o mini (93,2) | GPT-6 Luna (92,8) | gpt-oss-120b (Groq) (91,6) |
+| 25% | GPT-4o mini (94,0) | GPT-6 Luna (93,5) | gpt-oss-120b (Groq) (90,6) |
+| 35% | GPT-4o mini (94,8) | GPT-6 Luna (94,3) | gpt-oss-120b (Groq) (89,7) |
+| 50% | GPT-4o mini (96,0) | GPT-6 Luna (95,4) | gpt-oss-120b (Groq) (88,4) |
+
 ## Resultado de cada teste (resposta)
 
 ✅ correto nas 3 · 🟨 em parte · ❌ errou nas 3 · ⚠️ alucinação grave em pelo menos uma

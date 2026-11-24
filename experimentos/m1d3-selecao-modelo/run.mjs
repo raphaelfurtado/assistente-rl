@@ -9,7 +9,16 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { barrasHorizontais, mapaDeCalor } from "../m1d2-analise-prompts/charts.mjs";
 import { carregarKB, PERGUNTAS } from "./dataset.mjs";
-import { CONDICOES, FLUXO, MODELOS, PROVEDORES, VOLUMES } from "./modelos.mjs";
+import { CONDICOES, FLUXO, MODELOS, PROVEDORES, SENSIBILIDADE, VOLUMES } from "./modelos.mjs";
+
+// Papel de cada modelo na decisão final (conclusão do relatório, seção 6.2; usada na tabela de decisão).
+const DECISAO = {
+  "gpt-4o-mini": "**Principal**",
+  "openai/gpt-oss-120b": "Contingência / soberania",
+  "gpt-6-luna": "Sucessor a monitorar",
+  "gpt-6.2-sol": "Não recomendado agora",
+  "gpt-6.2-astra": "Não recomendado agora",
+};
 import { RUBRICA, SISTEMA_CLASSIFICACAO, sistemaResposta, usuarioClassificacao, usuarioResposta } from "./prompts.mjs";
 
 const DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -350,6 +359,36 @@ function relatorio() {
   const rank = (campo) => [...ns].sort((a, b) => b[campo] - a[campo]).map((n) => `${nome(n.x)} (${f1(n[campo])})`).join(" > ");
   md += head(["Cenário de pesos", "Ranking"]);
   md += `| Pesos do projeto | ${rank("base")} |\n| Custo pesando 35% | ${rank("custoAlto")} |\n| Qualidade e risco pesando 72% | ${rank("qualidadeAlta")} |\n\n`;
+
+  // ---- Tabela única de decisão: critérios, pesos, notas, nota ponderada → decisão ----
+  const ordem = [...ns].sort((a, b) => b.base - a.base);
+  md += `## Tabela de decisão consolidada\n\nNotas de 0 a 100 por critério (maior = melhor); a nota ponderada é a soma de nota × peso.\n\n`;
+  md += head(["Posição", "Modelo", ...CRITERIOS.map((c) => `${c.curto} (${c.peso}%)`), "**Nota ponderada**", "Decisão"]);
+  ordem.forEach((n, i) => {
+    const dec = DECISAO[n.x.m.id] ?? (n.x.m.provedor === "ollama" ? "Não viável" : "—");
+    md += `| ${i + 1}º | ${nome(n.x)} | ${CRITERIOS.map((c) => Math.round(n.v[c.id])).join(" | ")} | **${f1(n.base)}** | ${dec} |\n`;
+  });
+  md += "\n";
+
+  // ---- Sensibilidade de custo por volume ----
+  const ref = lista.find((x) => x.m.id === "gpt-4o-mini");
+  const usdN = (x) => (x === 0 ? "US$ 0" : `US$ ${x.toLocaleString("pt-BR", { minimumFractionDigits: x < 10 ? 2 : 0, maximumFractionDigits: x < 10 ? 2 : 0 })}`);
+  md += `## Sensibilidade de custo por volume\n\nCusto mensal e anual por modelo, com o mesmo fluxo de mensagens (${pct(1 - FLUXO.classificacao)} resolvidas por regras, sem LLM).\n\n`;
+  md += head(["Modelo", ...SENSIBILIDADE.map((v) => `${v.toLocaleString("pt-BR")} msg/mês`), `Por ano, com ${SENSIBILIDADE.at(-1).toLocaleString("pt-BR")} msg/mês`, "Quantas vezes o GPT-4o mini"]);
+  for (const n of ordem) {
+    const x = n.x;
+    const vezes = ref && ref.custoMsg > 0 ? x.custoMsg / ref.custoMsg : 0;
+    md += `| ${nome(x)} | ${SENSIBILIDADE.map((v) => usdN(x.custoMsg * v)).join(" | ")} | ${usdN(x.custoMsg * SENSIBILIDADE.at(-1) * 12)} | ${x.custoMsg === 0 ? "sem custo de API" : `${vezes.toFixed(1).replace(".", ",")}×`} |\n`;
+  }
+  md += "\nO modelo local não tem custo de API, mas exige servidor próprio (com GPU para uso público), um custo fixo que esta tabela não inclui.\n";
+  md += "\n**A decisão muda se o custo pesar mais (como acontece quando o volume cresce)?**\n\n";
+  md += head(["Peso do custo", "1º lugar", "2º lugar", "3º lugar"]);
+  for (const p of [15, 25, 35, 50]) {
+    const pesos = Object.fromEntries(CRITERIOS.map((c) => [c.id, c.id === "custo" ? p : (c.peso * (100 - p)) / 85]));
+    const r = ns.map((n) => ({ n, t: CRITERIOS.reduce((a, c) => a + (pesos[c.id] / 100) * n.v[c.id], 0) })).sort((a, b) => b.t - a.t);
+    md += `| ${p}% | ${r.slice(0, 3).map((y) => `${nome(y.n.x)} (${f1(y.t)})`).join(" | ")} |\n`;
+  }
+  md += "\n";
 
   md += `## Resultado de cada teste (resposta)\n\n✅ correto nas ${CONDICOES.execucoes} · 🟨 em parte · ❌ errou nas ${CONDICOES.execucoes} · ⚠️ alucinação grave em pelo menos uma\n\n`;
   md += head(["Pergunta", ...lista.map(nome)]);
