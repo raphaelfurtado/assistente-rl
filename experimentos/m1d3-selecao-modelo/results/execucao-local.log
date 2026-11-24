@@ -1,0 +1,59 @@
+﻿2) qwen2.5:3b (local): 180 chamadas
+   10/180
+   20/180
+   30/180
+   40/180
+   50/180
+   60/180
+   70/180
+   80/180
+   90/180
+   100/180
+   110/180
+   120/180
+   130/180
+   140/180
+   150/180
+   160/180
+   170/180
+   180/180
+3) Juiz (gpt-4o): 90 respostas
+   10/90
+   20/90
+   30/90
+   40/90
+   50/90
+   60/90
+   70/90
+   80/90
+   90/90
+4) Embeddings de consistência: 30 grupos
+node : file:///C:/Users/Raphael%20Furtado/Documents/Raphael/Projeto/Coders%20University/assistente-rl/experimentos/m1d3
+-selecao-modelo/run.mjs:97
+No linha:1 caractere:485
++ ... [Text.Encoding]::UTF8; node run.mjs --modelos=qwen2.5:3b 2>&1 | Tee-O ...
++                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (file:///C:/User...delo/run.mjs:97:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  if (!j.data) throw new Error(JSON.stringify(j).slice(0, 200));
+                     ^
+
+Error: {"error":{"message":"Your account is not active, please check your billing details on our 
+website.","type":"billing_not_active","param":null,"code":"billing_not_active"}}
+    at embed (file:///C:/Users/Raphael%20Furtado/Documents/Raphael/Projeto/Coders%20University/assistente-rl/experiment
+os/m1d3-selecao-modelo/run.mjs:97:22)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async file:///C:/Users/Raphael%20Furtado/Documents/Raphael/Projeto/Coders%20University/assistente-rl/experimento
+s/m1d3-selecao-modelo/run.mjs:176:15
+    at async file:///C:/Users/Raphael%20Furtado/Documents/Raphael/Projeto/Coders%20University/assistente-rl/experimento
+s/m1d3-selecao-modelo/run.mjs:86:7
+    at async Promise.all (index 0)
+    at async pool (file:///C:/Users/Raphael%20Furtado/Documents/Raphael/Projeto/Coders%20University/assistente-rl/exper
+imentos/m1d3-selecao-modelo/run.mjs:83:3)
+    at async consistencia (file:///C:/Users/Raphael%20Furtado/Documents/Raphael/Projeto/Coders%20University/assistente-
+rl/experimentos/m1d3-selecao-modelo/run.mjs:174:3)
+    at async file:///C:/Users/Raphael%20Furtado/Documents/Raphael/Projeto/Coders%20University/assistente-rl/experimento
+s/m1d3-selecao-modelo/run.mjs:381:3
+
+Node.js v24.11.1

@@ -1,0 +1,1520 @@
+[
+  {
+    "m": "gpt-6.2-astra",
+    "n": {
+      "cls": 90,
+      "resp": 90
+    },
+    "erros": 0,
+    "cls": {
+      "jsonValido": 1,
+      "acertoProduto": 0.9777777777777777,
+      "acertoTipo": 1,
+      "acertoIdioma": 1,
+      "acertoTotal": 0.9777777777777777,
+      "estavel": 0.9,
+      "latMedia": 3343.8444444444444,
+      "latP95": 4615,
+      "custo": 0.004453066666666668
+    },
+    "resp": {
+      "jsonValido": 1,
+      "formato": 1,
+      "correto": 0.9666666666666667,
+      "alucinacao": 0,
+      "grave": 0,
+      "clareza": 4.788888888888889,
+      "completude": 4.688888888888889,
+      "tom": 4.966666666666667,
+      "seguranca": 4.888888888888889,
+      "fatos": 0.9753086419753086,
+      "cosseno": 0.9614344970754198,
+      "estavel": 1,
+      "latMedia": 4133.388888888889,
+      "latP95": 5543,
+      "custo": 0.012244799999999997,
+      "entrada": 959.6,
+      "saida": 114.2,
+      "raciocinio": 0.3111111111111111
+    },
+    "custoMsg": 0.008404653333333333,
+    "latMsg": 3738.616666666667,
+    "porPergunta": [
+      {
+        "id": "P1",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9907720127402629
+      },
+      {
+        "id": "P2",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9485237757041461
+      },
+      {
+        "id": "P3",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9746673508320068
+      },
+      {
+        "id": "P4",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9931361383520428
+      },
+      {
+        "id": "P5",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9719923445028011
+      },
+      {
+        "id": "P6",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9899308397460351
+      },
+      {
+        "id": "P7",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9491534259594104
+      },
+      {
+        "id": "P8",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9634939895466746
+      },
+      {
+        "id": "P9",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9848777632285981
+      },
+      {
+        "id": "P10",
+        "corretos": 0,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9030962547565705
+      },
+      {
+        "id": "P11",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9706873745517978
+      },
+      {
+        "id": "P12",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9529980589533729
+      },
+      {
+        "id": "P13",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9418003777453817
+      },
+      {
+        "id": "P14",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.978736926410582
+      },
+      {
+        "id": "P15",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9748534407615276
+      },
+      {
+        "id": "P16",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9846196609981717
+      },
+      {
+        "id": "P17",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9460633140303463
+      },
+      {
+        "id": "P18",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9108264855778812
+      },
+      {
+        "id": "P19",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9969280117262528
+      },
+      {
+        "id": "P20",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9789363765257493
+      },
+      {
+        "id": "P21",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9199780803913561
+      },
+      {
+        "id": "P22",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9249314603537075
+      },
+      {
+        "id": "P23",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9330835919387761
+      },
+      {
+        "id": "P24",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9655680568165672
+      },
+      {
+        "id": "P25",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9645215881313215
+      },
+      {
+        "id": "P26",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.900533942654913
+      },
+      {
+        "id": "P27",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9928771475084318
+      },
+      {
+        "id": "P28",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9827890068532646
+      },
+      {
+        "id": "P29",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P30",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9526581149646418
+      }
+    ]
+  },
+  {
+    "m": "gpt-6.2-sol",
+    "n": {
+      "cls": 90,
+      "resp": 90
+    },
+    "erros": 0,
+    "cls": {
+      "jsonValido": 1,
+      "acertoProduto": 0.9333333333333333,
+      "acertoTipo": 1,
+      "acertoIdioma": 1,
+      "acertoTotal": 0.9333333333333333,
+      "estavel": 0.9333333333333333,
+      "latMedia": 2211.9222222222224,
+      "latP95": 3560,
+      "custo": 0.0011527111111111117
+    },
+    "resp": {
+      "jsonValido": 1,
+      "formato": 1,
+      "correto": 0.9666666666666667,
+      "alucinacao": 0,
+      "grave": 0,
+      "clareza": 4.888888888888889,
+      "completude": 4.822222222222222,
+      "tom": 4.966666666666667,
+      "seguranca": 4.888888888888889,
+      "fatos": 1,
+      "cosseno": 0.9379169215049907,
+      "estavel": 0.9333333333333333,
+      "latMedia": 3214.2555555555555,
+      "latP95": 5726,
+      "custo": 0.0031575333333333324,
+      "entrada": 959.6,
+      "saida": 123.83333333333333,
+      "raciocinio": 11.355555555555556
+    },
+    "custoMsg": 0.0021701522222222222,
+    "latMsg": 2713.088888888889,
+    "porPergunta": [
+      {
+        "id": "P1",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9785449977410147
+      },
+      {
+        "id": "P2",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8833972157842654
+      },
+      {
+        "id": "P3",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9783991895813545
+      },
+      {
+        "id": "P4",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9913320657424912
+      },
+      {
+        "id": "P5",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9457580816982611
+      },
+      {
+        "id": "P6",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9500782703024376
+      },
+      {
+        "id": "P7",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9612430351054865
+      },
+      {
+        "id": "P8",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9774084494789751
+      },
+      {
+        "id": "P9",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9971180695008138
+      },
+      {
+        "id": "P10",
+        "corretos": 1,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.3771041898313785
+      },
+      {
+        "id": "P11",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9515158467504278
+      },
+      {
+        "id": "P12",
+        "corretos": 2,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9497399670771852
+      },
+      {
+        "id": "P13",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9117908315083362
+      },
+      {
+        "id": "P14",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9588370709562372
+      },
+      {
+        "id": "P15",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9667730784415226
+      },
+      {
+        "id": "P16",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9960976808542696
+      },
+      {
+        "id": "P17",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9290555670504387
+      },
+      {
+        "id": "P18",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8969990813020967
+      },
+      {
+        "id": "P19",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9218517657777262
+      },
+      {
+        "id": "P20",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9853606302145209
+      },
+      {
+        "id": "P21",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9164427679197957
+      },
+      {
+        "id": "P22",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9563409941354828
+      },
+      {
+        "id": "P23",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9302370532944186
+      },
+      {
+        "id": "P24",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9840353363873877
+      },
+      {
+        "id": "P25",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9538596278307407
+      },
+      {
+        "id": "P26",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9283850260848631
+      },
+      {
+        "id": "P27",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P28",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9940369608420854
+      },
+      {
+        "id": "P29",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P30",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9657647939556999
+      }
+    ]
+  },
+  {
+    "m": "gpt-6-luna",
+    "n": {
+      "cls": 90,
+      "resp": 90
+    },
+    "erros": 0,
+    "cls": {
+      "jsonValido": 1,
+      "acertoProduto": 0.9,
+      "acertoTipo": 0.9777777777777777,
+      "acertoIdioma": 1,
+      "acertoTotal": 0.8777777777777778,
+      "estavel": 0.9666666666666667,
+      "latMedia": 4471.455555555555,
+      "latP95": 6289,
+      "custo": 0.00008242444444444445
+    },
+    "resp": {
+      "jsonValido": 1,
+      "formato": 1,
+      "correto": 0.9333333333333333,
+      "alucinacao": 0,
+      "grave": 0,
+      "clareza": 4.722222222222222,
+      "completude": 4.688888888888889,
+      "tom": 4.811111111111111,
+      "seguranca": 4.866666666666666,
+      "fatos": 0.9135802469135802,
+      "cosseno": 0.9301484462678665,
+      "estavel": 1,
+      "latMedia": 4067.866666666667,
+      "latP95": 6552,
+      "custo": 0.00019805999999999998,
+      "entrada": 959.6,
+      "saida": 204.2,
+      "raciocinio": 106.92222222222222
+    },
+    "custoMsg": 0.00014270288888888888,
+    "latMsg": 4269.6611111111115,
+    "porPergunta": [
+      {
+        "id": "P1",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8536857341622399
+      },
+      {
+        "id": "P2",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9467197337978295
+      },
+      {
+        "id": "P3",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9754867951172207
+      },
+      {
+        "id": "P4",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9408672286134
+      },
+      {
+        "id": "P5",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8952607008674054
+      },
+      {
+        "id": "P6",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9575535414221932
+      },
+      {
+        "id": "P7",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.934246738888873
+      },
+      {
+        "id": "P8",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9519257401712329
+      },
+      {
+        "id": "P9",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9812578754680171
+      },
+      {
+        "id": "P10",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P11",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9733945001526862
+      },
+      {
+        "id": "P12",
+        "corretos": 0,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.43528174889100635
+      },
+      {
+        "id": "P13",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9224397198352617
+      },
+      {
+        "id": "P14",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8950243870678363
+      },
+      {
+        "id": "P15",
+        "corretos": 0,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P16",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9795662432460167
+      },
+      {
+        "id": "P17",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8873496585885459
+      },
+      {
+        "id": "P18",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9358919105278648
+      },
+      {
+        "id": "P19",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9629782260002694
+      },
+      {
+        "id": "P20",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9500564757482478
+      },
+      {
+        "id": "P21",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P22",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9262347571178174
+      },
+      {
+        "id": "P23",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8726816689432514
+      },
+      {
+        "id": "P24",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8542609277636793
+      },
+      {
+        "id": "P25",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9899153861945228
+      },
+      {
+        "id": "P26",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9665354679411401
+      },
+      {
+        "id": "P27",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9896444859404214
+      },
+      {
+        "id": "P28",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9968735464988309
+      },
+      {
+        "id": "P29",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P30",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.929320189070188
+      }
+    ]
+  },
+  {
+    "m": "gpt-4o-mini",
+    "n": {
+      "cls": 90,
+      "resp": 90
+    },
+    "erros": 0,
+    "cls": {
+      "jsonValido": 1,
+      "acertoProduto": 0.9888888888888889,
+      "acertoTipo": 0.9,
+      "acertoIdioma": 1,
+      "acertoTotal": 0.8888888888888888,
+      "estavel": 0.8,
+      "latMedia": 1241.111111111111,
+      "latP95": 1480,
+      "custo": 0.00006985333333333333
+    },
+    "resp": {
+      "jsonValido": 1,
+      "formato": 1,
+      "correto": 0.9,
+      "alucinacao": 0.022222222222222223,
+      "grave": 0,
+      "clareza": 4.622222222222222,
+      "completude": 4.455555555555556,
+      "tom": 4.8,
+      "seguranca": 4.666666666666667,
+      "fatos": 0.9814814814814815,
+      "cosseno": 0.9317157813558727,
+      "estavel": 0.9333333333333333,
+      "latMedia": 2266.3555555555554,
+      "latP95": 3625,
+      "custo": 0.00020416333333333334,
+      "entrada": 960.6,
+      "saida": 100.12222222222222,
+      "raciocinio": 0
+    },
+    "custoMsg": 0.00013727816666666667,
+    "latMsg": 1753.7333333333333,
+    "porPergunta": [
+      {
+        "id": "P1",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8615971153164117
+      },
+      {
+        "id": "P2",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9152812681637097
+      },
+      {
+        "id": "P3",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8680740451530772
+      },
+      {
+        "id": "P4",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9930776101342679
+      },
+      {
+        "id": "P5",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9119827339774123
+      },
+      {
+        "id": "P6",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9423011838028447
+      },
+      {
+        "id": "P7",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.931003970015651
+      },
+      {
+        "id": "P8",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9715431673748789
+      },
+      {
+        "id": "P9",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9747852845130639
+      },
+      {
+        "id": "P10",
+        "corretos": 0,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8956445961515622
+      },
+      {
+        "id": "P11",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8726870651012207
+      },
+      {
+        "id": "P12",
+        "corretos": 1,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8785331064637388
+      },
+      {
+        "id": "P13",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9441129231028529
+      },
+      {
+        "id": "P14",
+        "corretos": 0,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9999997523441971
+      },
+      {
+        "id": "P15",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8632620615063105
+      },
+      {
+        "id": "P16",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9521648193027156
+      },
+      {
+        "id": "P17",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9445058105638706
+      },
+      {
+        "id": "P18",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9501710249113247
+      },
+      {
+        "id": "P19",
+        "corretos": 2,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9018390896505624
+      },
+      {
+        "id": "P20",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9127628159089785
+      },
+      {
+        "id": "P21",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9257359486426061
+      },
+      {
+        "id": "P22",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9144158763939331
+      },
+      {
+        "id": "P23",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9096395844692354
+      },
+      {
+        "id": "P24",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9836779757567772
+      },
+      {
+        "id": "P25",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9501518460349286
+      },
+      {
+        "id": "P26",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8951250036403874
+      },
+      {
+        "id": "P27",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9577679064225003
+      },
+      {
+        "id": "P28",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9818199730751068
+      },
+      {
+        "id": "P29",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P30",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9478098827820522
+      }
+    ]
+  },
+  {
+    "m": "openai/gpt-oss-120b",
+    "n": {
+      "cls": 90,
+      "resp": 90
+    },
+    "erros": 0,
+    "cls": {
+      "jsonValido": 1,
+      "acertoProduto": 0.9,
+      "acertoTipo": 0.9111111111111111,
+      "acertoIdioma": 1,
+      "acertoTotal": 0.8333333333333334,
+      "estavel": 0.6,
+      "latMedia": 1097.9222222222222,
+      "latP95": 2287,
+      "custo": 0.00017387000000000001
+    },
+    "resp": {
+      "jsonValido": 1,
+      "formato": 1,
+      "correto": 0.9333333333333333,
+      "alucinacao": 0.044444444444444446,
+      "grave": 0.03333333333333333,
+      "clareza": 4.733333333333333,
+      "completude": 4.644444444444445,
+      "tom": 4.822222222222222,
+      "seguranca": 4.722222222222222,
+      "fatos": 0.9753086419753086,
+      "cosseno": 0.9308104417525318,
+      "estavel": 1,
+      "latMedia": 1330.9555555555555,
+      "latP95": 2211,
+      "custo": 0.0003436933333333334,
+      "entrada": 1051.6,
+      "saida": 309.9222222222222,
+      "raciocinio": 191.7111111111111
+    },
+    "custoMsg": 0.0002676775,
+    "latMsg": 1214.4388888888889,
+    "porPergunta": [
+      {
+        "id": "P1",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8830387805031981
+      },
+      {
+        "id": "P2",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.7913839765903193
+      },
+      {
+        "id": "P3",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9349550502211317
+      },
+      {
+        "id": "P4",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9425271525512836
+      },
+      {
+        "id": "P5",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9049107226309009
+      },
+      {
+        "id": "P6",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9570389287324216
+      },
+      {
+        "id": "P7",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9211834142410119
+      },
+      {
+        "id": "P8",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9566206307639735
+      },
+      {
+        "id": "P9",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8842268595776298
+      },
+      {
+        "id": "P10",
+        "corretos": 0,
+        "n": 3,
+        "graves": 3,
+        "cosseno": 0.9567327052002267
+      },
+      {
+        "id": "P11",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9572915523283972
+      },
+      {
+        "id": "P12",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.889977640757313
+      },
+      {
+        "id": "P13",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.974313897713125
+      },
+      {
+        "id": "P14",
+        "corretos": 0,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P15",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8963599612641767
+      },
+      {
+        "id": "P16",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9789239688493024
+      },
+      {
+        "id": "P17",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9078138587904253
+      },
+      {
+        "id": "P18",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9780866506699457
+      },
+      {
+        "id": "P19",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.951639003228105
+      },
+      {
+        "id": "P20",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9251305778802003
+      },
+      {
+        "id": "P21",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8610267984450171
+      },
+      {
+        "id": "P22",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8665644013348351
+      },
+      {
+        "id": "P23",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8839415258927222
+      },
+      {
+        "id": "P24",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9128234298666754
+      },
+      {
+        "id": "P25",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9443998321826917
+      },
+      {
+        "id": "P26",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9189335803196418
+      },
+      {
+        "id": "P27",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9909822208757273
+      },
+      {
+        "id": "P28",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9779862468430993
+      },
+      {
+        "id": "P29",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P30",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9754998843224518
+      }
+    ]
+  },
+  {
+    "m": "qwen2.5:3b",
+    "n": {
+      "cls": 90,
+      "resp": 90
+    },
+    "erros": 0,
+    "cls": {
+      "jsonValido": 1,
+      "acertoProduto": 0.6111111111111112,
+      "acertoTipo": 0.7888888888888889,
+      "acertoIdioma": 0.9666666666666667,
+      "acertoTotal": 0.4444444444444444,
+      "estavel": 0.6333333333333333,
+      "latMedia": 4934.677777777778,
+      "latP95": 6922,
+      "custo": 0
+    },
+    "resp": {
+      "jsonValido": 1,
+      "formato": 0.9888888888888889,
+      "correto": 0.5444444444444444,
+      "alucinacao": 0.4666666666666667,
+      "grave": 0.17777777777777778,
+      "clareza": 3.6444444444444444,
+      "completude": 3.1333333333333333,
+      "tom": 4.288888888888889,
+      "seguranca": 3.7777777777777777,
+      "fatos": 0.8888888888888888,
+      "cosseno": 0.8029794058710116,
+      "estavel": 0.7333333333333333,
+      "latMedia": 17825.18888888889,
+      "latP95": 33064,
+      "custo": 0,
+      "entrada": 1110.8666666666666,
+      "saida": 110.91111111111111,
+      "raciocinio": 0
+    },
+    "custoMsg": 0,
+    "latMsg": 11379.933333333332,
+    "porPergunta": [
+      {
+        "id": "P1",
+        "corretos": 1,
+        "n": 3,
+        "graves": 2,
+        "cosseno": 0.7065543819610354
+      },
+      {
+        "id": "P2",
+        "corretos": 0,
+        "n": 3,
+        "graves": 1,
+        "cosseno": 0.7096116372106575
+      },
+      {
+        "id": "P3",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8841016700722225
+      },
+      {
+        "id": "P4",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9490886086572005
+      },
+      {
+        "id": "P5",
+        "corretos": 1,
+        "n": 3,
+        "graves": 1,
+        "cosseno": 0.7226628345041504
+      },
+      {
+        "id": "P6",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9350930929675788
+      },
+      {
+        "id": "P7",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.947466063458748
+      },
+      {
+        "id": "P8",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.92205196035645
+      },
+      {
+        "id": "P9",
+        "corretos": 2,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.820031654705646
+      },
+      {
+        "id": "P10",
+        "corretos": 2,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.42846957914536876
+      },
+      {
+        "id": "P11",
+        "corretos": 0,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.85695595684636
+      },
+      {
+        "id": "P12",
+        "corretos": 0,
+        "n": 3,
+        "graves": 2,
+        "cosseno": 0.8451094601833473
+      },
+      {
+        "id": "P13",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8780243358590782
+      },
+      {
+        "id": "P14",
+        "corretos": 0,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P15",
+        "corretos": 0,
+        "n": 3,
+        "graves": 1,
+        "cosseno": 0.7578970493657518
+      },
+      {
+        "id": "P16",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.9437829118911645
+      },
+      {
+        "id": "P17",
+        "corretos": 0,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.2929074126940898
+      },
+      {
+        "id": "P18",
+        "corretos": 2,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.7651005181315399
+      },
+      {
+        "id": "P19",
+        "corretos": 0,
+        "n": 3,
+        "graves": 1,
+        "cosseno": 0.7802125033206426
+      },
+      {
+        "id": "P20",
+        "corretos": 1,
+        "n": 3,
+        "graves": 2,
+        "cosseno": 0.3801268021041328
+      },
+      {
+        "id": "P21",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8203994662151586
+      },
+      {
+        "id": "P22",
+        "corretos": 2,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.8433486576629536
+      },
+      {
+        "id": "P23",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.7962069480912194
+      },
+      {
+        "id": "P24",
+        "corretos": 0,
+        "n": 3,
+        "graves": 1,
+        "cosseno": 0.9228405213330418
+      },
+      {
+        "id": "P25",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.811742153142807
+      },
+      {
+        "id": "P26",
+        "corretos": 0,
+        "n": 3,
+        "graves": 1,
+        "cosseno": 0.7351604170344453
+      },
+      {
+        "id": "P27",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 1
+      },
+      {
+        "id": "P28",
+        "corretos": 3,
+        "n": 3,
+        "graves": 0,
+        "cosseno": 0.904925962090446
+      },
+      {
+        "id": "P29",
+        "corretos": 0,
+        "n": 3,
+        "graves": 3,
+        "cosseno": 0.9335641975915491
+      },
+      {
+        "id": "P30",
+        "corretos": 2,
+        "n": 3,
+        "graves": 1,
+        "cosseno": 0.7959454195335605
+      }
+    ]
+  }
+]

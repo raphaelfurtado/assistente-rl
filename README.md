@@ -20,6 +20,7 @@ Sem vínculo oficial com o RealLeader. A base de conhecimento padrão foi montad
 | Este README | Quem vai rodar ou publicar o projeto | Pré-requisitos, instalação local, publicação na Vercel, solução de problemas, API |
 | [docs/INSTALACAO-WIDGET.md](docs/INSTALACAO-WIDGET.md) | Quem vai colocar o chat num site | Passo a passo por plataforma (HTML, WordPress, Wix, Shopify, Google Tag Manager, Next.js, React), opções e exemplos de uso |
 | [docs/IMPLANTACAO.md](docs/IMPLANTACAO.md) | Quem decide e opera em produção | Plano de entrada em produção por fases, checklist de go-live, operação do dia a dia, custos e métricas |
+| [experimentos/m1d3-selecao-modelo](experimentos/m1d3-selecao-modelo/RELATORIO.md) | Quem decide qual modelo de IA usar | Benchmark de 6 modelos (premium, intermediário, open-source em nuvem e local) com custo, latência, qualidade, consistência e risco; inclui [resumo executivo](experimentos/m1d3-selecao-modelo/RESUMO-EXECUTIVO.md) |
 | [experimentos/m1d2-analise-prompts](experimentos/m1d2-analise-prompts/RELATORIO.md) | Quem quer entender por que o prompt é como é | Experimento com 15 perguntas × 7 estratégias de prompt, avaliadas contra a documentação oficial; as escolhas do assistente (base no prompt, exemplo de "não sei", urgência primeiro, temperatura 0) vêm daqui |
 
 ---
